@@ -1,0 +1,50 @@
+image:
+  repository: ghcr.io/aegisscan/aegisscan
+  tag: 0.1.0
+  pullPolicy: IfNotPresent
+replicaCount: 1
+imagePullSecrets: []
+service:
+  port: 8080
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: aegisscan.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+gitCache:
+  enabled: true
+  size: 20Gi
+  storageClass: ""
+postgresql:
+  external: true
+  host: postgresql
+  port: 5432
+  database: aegisscan
+  existingSecret: aegisscan-database
+securityContext:
+  runAsNonRoot: true
+containerSecurityContext:
+  runAsUser: 65532
+  runAsGroup: 65532
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities: { drop: [ALL] }
+  seccompProfile: { type: RuntimeDefault }
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+topologySpreadConstraints: []
+podAnnotations: {}
+env: []
+oidc:
+  enabled: false
+  issuer: ""
+  audience: ""
+  roleClaim: "groups"
+  jwksURL: ""

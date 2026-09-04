@@ -1,0 +1,10 @@
+output/
+output-*.png
+node-registry.json
+web/.playwright-cli/
+web/test-results/
+web/playwright-report/
+web/dist/
+web/node_modules/
+.playwright-cli/
+*.log

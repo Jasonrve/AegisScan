@@ -1,0 +1,11 @@
+{{- if .Values.gitCache.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: { name: {{ include "aegisscan.fullname" . }}-git-cache }
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: {{ .Values.gitCache.size }} } }
+  {{- if .Values.gitCache.storageClass }}
+  storageClassName: {{ .Values.gitCache.storageClass }}
+  {{- end }}
+{{- end }}

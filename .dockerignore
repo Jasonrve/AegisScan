@@ -1,0 +1,6 @@
+.git
+.playwright-cli
+output
+web/node_modules
+web/dist
+*.png

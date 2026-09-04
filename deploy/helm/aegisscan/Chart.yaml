@@ -1,0 +1,6 @@
+apiVersion: v2
+name: aegisscan
+description: AegisScan security and dependency automation control plane
+type: application
+version: 0.1.0
+appVersion: 0.1.0

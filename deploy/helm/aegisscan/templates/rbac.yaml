@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: { name: {{ include "aegisscan.fullname" . }} }
+rules:
+  - apiGroups: ["aegisscan.io"]
+    resources: [repositories, repositorysources, scanpolicies]
+    verbs: [get, list, watch, create, update, patch]
+  - apiGroups: [""]
+    resources: [secrets]
+    verbs: [get]
+  - apiGroups: ["batch"]
+    resources: [jobs]
+    verbs: [get, list, watch, create, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: { name: {{ include "aegisscan.fullname" . }} }
+subjects: [{ kind: ServiceAccount, name: {{ include "aegisscan.fullname" . }} }]
+roleRef: { kind: Role, name: {{ include "aegisscan.fullname" . }}, apiGroup: rbac.authorization.k8s.io }
