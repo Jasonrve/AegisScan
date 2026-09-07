@@ -3,32 +3,64 @@ kind: CustomResourceDefinition
 metadata:
   name: repositories.aegisscan.io
 spec:
+  conversion:
+    strategy: None
   group: aegisscan.io
+  names:
+    kind: Repository
+    listKind: RepositoryList
+    plural: repositories
+    singular: repository
   scope: Namespaced
-  names: { plural: repositories, singular: repository, kind: Repository, shortNames: [repo] }
   versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      subresources: { status: {} }
-      schema:
-        openAPIV3Schema:
-          type: object
-          properties:
-            spec:
-              type: object
-              required: [provider, cloneURL]
-              properties:
-                provider: { type: string, enum: [github, gitlab, generic] }
-                cloneURL: { type: string, pattern: '^(https|ssh)://' }
-                defaultBranch: { type: string, default: main }
-                scanners: { type: array, items: { type: string, enum: [trufflehog, renovate] } }
-                policyRef: { type: string }
-            status:
-              type: object
-              properties:
-                phase: { type: string, enum: [Ready, Error, Disabled] }
-                latestCommitSHA: { type: string }
-                cacheState: { type: string }
-                latestScanState: { type: string }
-                conditions: { type: array, items: { type: object, x-kubernetes-preserve-unknown-fields: true } }
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          spec:
+            properties:
+              cloneURL:
+                type: string
+              defaultBranch:
+                type: string
+              disabled:
+                type: boolean
+              policyRef:
+                nullable: true
+                type: string
+              provider:
+                type: string
+              scanners:
+                items:
+                  type: string
+                type: array
+            type: object
+          status:
+            properties:
+              cacheState:
+                type: string
+              conditions:
+                items:
+                  properties:
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  type: object
+                type: array
+              latestCommitSHA:
+                type: string
+              latestScanState:
+                type: string
+              phase:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,6 +1,11 @@
 .git
 .playwright-cli
 output
-web/node_modules
+node_modules
 web/dist
+**/bin
+**/obj
 *.png
+docs
+.env
+.env.*

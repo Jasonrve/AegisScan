@@ -6,6 +6,4 @@ runtime settings. Kubernetes Jobs are disposable execution records; deleting a
 Job must not delete historical results.
 
 Scanner output is normalized before persistence. Complete discovered secret
-values are never stored in findings or sanitized logs. The local development
-runtime uses an in-memory state adapter until a PostgreSQL repository/API
-composition is configured.
+values are never stored in findings or sanitized logs.

@@ -2,10 +2,20 @@ image:
   repository: ghcr.io/aegisscan/aegisscan
   tag: 0.1.0
   pullPolicy: IfNotPresent
-replicaCount: 1
+# Safe above 1: the scan-execution and scheduling workers coordinate via a Postgres
+# advisory lock (see Scanning/DistributedLock.cs), so only one replica ever acts per tick.
+replicaCount: 2
 imagePullSecrets: []
 service:
   port: 8080
+web:
+  enabled: true
+  image:
+    repository: ghcr.io/aegisscan/aegisscan-web
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
+  service:
+    port: 80
 ingress:
   enabled: false
   className: ""
@@ -16,16 +26,24 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
-gitCache:
-  enabled: true
-  size: 20Gi
-  storageClass: ""
 postgresql:
-  external: true
-  host: postgresql
-  port: 5432
-  database: aegisscan
+  # If enabled, the chart wires a Secret key into ConnectionStrings__Postgres.
+  # It does not deploy a PostgreSQL server itself; point existingSecret at one
+  # you manage (an in-cluster instance, or a managed service).
+  enabled: true
   existingSecret: aegisscan-database
+  secretKey: connection-string
+serviceMonitor:
+  enabled: false
+  interval: 30s
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
 securityContext:
   runAsNonRoot: true
 containerSecurityContext:
@@ -42,9 +60,3 @@ affinity: {}
 topologySpreadConstraints: []
 podAnnotations: {}
 env: []
-oidc:
-  enabled: false
-  issuer: ""
-  audience: ""
-  roleClaim: "groups"
-  jwksURL: ""

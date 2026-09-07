@@ -1,13 +1,22 @@
 name: CI
 on: [push, pull_request]
+concurrency:
+  group: aegisscan-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with: { go-version: '1.24' }
-      - run: go test ./...
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '10.0.x' }
+      - run: dotnet tool restore
+      - run: dotnet tool install --global KubeOps.Cli --version 13.2.0
+      - run: echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
+      - run: dotnet restore AegisScan.sln
+      - run: dotnet build src/AegisScan.Operator/AegisScan.Operator.csproj -c Release --no-restore
+      - run: dotnet test tests/AegisScan.Operator.Tests/AegisScan.Operator.Tests.csproj -c Release --no-restore
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm, cache-dependency-path: web/package-lock.json }
       - run: npm ci
@@ -16,6 +25,78 @@ jobs:
         working-directory: web
       - run: npm run test
         working-directory: web
-      - run: go build ./cmd/aegisscan
+      - run: npm audit --audit-level=high
+        working-directory: web
+      - run: docker build -t aegisscan:ci .
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: aegisscan:ci
+          format: table
+          exit-code: '1'
+          severity: CRITICAL,HIGH
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run test:e2e
+        working-directory: web
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: web/playwright-report/
+          if-no-files-found: ignore
       - run: helm lint deploy/helm/aegisscan
       - run: helm template aegisscan deploy/helm/aegisscan --include-crds
+      - run: pip install --quiet pyyaml
+      - run: python3 scripts/check_crd_compat.py
+
+  aot-probe:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '10.0.x' }
+      - run: dotnet restore AegisScan.sln
+      - run: dotnet publish src/AegisScan.Operator/AegisScan.Operator.csproj -c Release -r linux-x64 --self-contained true -p:PublishAot=true -p:PublishTrimmed=true -p:UseAppHost=true --no-restore
+      - name: Run published AOT artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          ASPNETCORE_URLS=http://127.0.0.1:18080 ./src/AegisScan.Operator/bin/Release/net10.0/linux-x64/publish/AegisScan.Operator > aot.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for i in {1..30}; do curl --fail --silent http://127.0.0.1:18080/healthz && exit 0 || sleep 1; done
+          cat aot.log
+          exit 1
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      - uses: anchore/sbom-action@v0
+        with:
+          image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          artifact-name: sbom.spdx.json
+          output-file: sbom.spdx.json
+      - uses: sigstore/cosign-installer@v3
+      - run: cosign sign --yes ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      - run: helm package deploy/helm/aegisscan --version "${GITHUB_REF_NAME#v}" --app-version "${GITHUB_REF_NAME#v}"
+      - run: helm push aegisscan-*.tgz oci://ghcr.io/${{ github.repository_owner }}/charts

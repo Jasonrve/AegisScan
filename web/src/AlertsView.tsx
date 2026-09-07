@@ -1,0 +1,8 @@
+import { useState } from 'react'
+
+type Alert = { title: string; detail: string; severity: string }
+export default function AlertsView({ alerts, settings, canConfigure, onSave, onNavigate, pretty }: { alerts: Alert[]; settings: Record<string, any>; canConfigure: boolean; onSave: (value: Record<string, any>) => Promise<void>; onNavigate: (view: string) => void; pretty: (value: any) => string }) {
+  const [webhookURL, setWebhookURL] = useState(settings.webhookURL || '')
+  const save = () => onSave({ ...settings, webhookURL: webhookURL.trim() })
+  return <section className="panel feature-view"><div className="panel-head"><div><h2>Alerts and notifications</h2><p className="feature-note">Operational and security signals requiring attention.</p></div></div>{canConfigure && <div className="notification-settings"><label>Outbound webhook URL<input aria-label="Notification webhook URL" type="url" value={webhookURL} onChange={e => setWebhookURL(e.target.value)} placeholder="https://hooks.example.com/aegisscan"/><small>Receives scan completion payloads from the API.</small></label><button className="primary" onClick={save}>Save notification settings</button></div>}<div className="alert-list">{alerts.map((alert, i) => <div className="alert-row" key={`${alert.title}-${i}`}><span className={`alert-mark ${alert.severity.toLowerCase()}`}>{pretty(alert.severity)}</span><div><strong>{alert.title}</strong><small>{alert.detail}</small></div><button className="text-button" onClick={() => onNavigate(alert.severity === 'Critical' ? 'Findings' : 'Scans')}>Review</button></div>)}{!alerts.length && <div className="empty-state">No active alerts. Aegis is quiet.</div>}</div></section>
+}

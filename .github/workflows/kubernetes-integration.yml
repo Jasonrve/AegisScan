@@ -1,0 +1,61 @@
+name: Kubernetes integration
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  compose-k3s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '10.0.x' }
+      - run: dotnet tool restore
+      - run: dotnet tool install --global KubeOps.Cli --version 13.2.0
+      - run: echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
+      - run: dotnet build src/AegisScan.Operator/AegisScan.Operator.csproj -c Release
+      - run: docker compose up --build -d
+      - name: Verify k3s and CRD reconciliation
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..60}; do docker compose exec -T k3s kubectl get --raw=/readyz 2>/dev/null | grep -q ok && break; sleep 2; done
+          docker compose exec -T k3s kubectl apply -f /opt/aegisscan/generated/repositories_aegisscan_io.yaml -f /opt/aegisscan/generated/repositorysources_aegisscan_io.yaml -f /opt/aegisscan/generated/scanpolicies_aegisscan_io.yaml
+          docker compose exec -T k3s kubectl apply -f - <<'YAML'
+          apiVersion: aegisscan.io/v1alpha1
+          kind: ScanPolicy
+          metadata: {name: ci-policy, namespace: default}
+          spec: {scanners: [trufflehog]}
+          ---
+          apiVersion: aegisscan.io/v1alpha1
+          kind: Repository
+          metadata: {name: ci-repository, namespace: default}
+          spec: {provider: generic, cloneURL: https://example.test/repository.git}
+          ---
+          apiVersion: aegisscan.io/v1alpha1
+          kind: Repository
+          metadata: {name: ci-disabled-repository, namespace: default}
+          spec: {provider: generic, cloneURL: https://example.test/disabled.git, disabled: true}
+          ---
+          apiVersion: aegisscan.io/v1alpha1
+          kind: RepositorySource
+          metadata: {name: ci-source, namespace: default}
+          spec: {provider: github, organization: openai}
+          ---
+          apiVersion: aegisscan.io/v1alpha1
+          kind: ScanPolicy
+          metadata: {name: ci-invalid-policy, namespace: default}
+          spec: {scanners: []}
+          YAML
+          for i in {1..60}; do
+            ready=$(docker compose exec -T k3s kubectl get repository ci-repository -o jsonpath='{.status.phase}' 2>/dev/null || true)
+            disabled=$(docker compose exec -T k3s kubectl get repository ci-disabled-repository -o jsonpath='{.status.phase}' 2>/dev/null || true)
+            source=$(docker compose exec -T k3s kubectl get repositorysource ci-source -o jsonpath='{.status.phase}' 2>/dev/null || true)
+            invalid=$(docker compose exec -T k3s kubectl get scanpolicy ci-invalid-policy -o jsonpath='{.status.phase}' 2>/dev/null || true)
+            [ "$ready" = Ready ] && [ "$disabled" = Disabled ] && [ "$source" = Ready ] && [ "$invalid" = Error ] && exit 0
+            sleep 2
+          done
+          docker compose logs aegisscan
+          exit 1
+      - if: always()
+        run: docker compose down -v

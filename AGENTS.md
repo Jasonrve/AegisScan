@@ -1,11 +1,12 @@
 # AegisScan agent guide
 
-The repository follows the prescribed monorepo shape. Product behavior belongs in `internal/app` and `internal/domain`; adapters belong in `internal/database`, `internal/operator`, `internal/discovery`, and `internal/plugins`; HTTP translation belongs in `internal/server`; reusable UI primitives belong in `web/src/components`; feature-specific UI belongs in `web/src/features`.
+The repository follows a .NET/KubeOps monorepo shape. Kubernetes entities belong in `src/AegisScan.Operator/Resources`; reconciliation belongs in `src/AegisScan.Operator/Controllers`; HTTP translation belongs in `src/AegisScan.Operator/Api`; the PostgreSQL persistence layer (DbContext + entities) belongs in `src/AegisScan.Operator/Data`; reusable UI primitives belong in `web/src/components`; feature-specific UI belongs in `web/src/features`.
 
-The current dashboard is a frontend vertical slice with local fixture data. Do not move database or Kubernetes access into React components when the API is introduced. Scanner plugins consume prepared workspaces owned by Aegis; they never clone repositories themselves.
+`/api/v1/*` is backed by PostgreSQL via EF Core (`AegisDbContext`), not an in-memory fixture. Do not move database or Kubernetes access into React components. Scanner plugins consume prepared workspaces owned by Aegis; they never clone repositories themselves.
 
 ## Commands
 
 - `cd web; npm run dev` — local development
 - `cd web; npm run build` — production build
-- `cd web; npm run test` — frontend tests when added
+- `dotnet test tests/AegisScan.Operator.Tests/AegisScan.Operator.Tests.csproj` — operator tests
+- `cd web; npm run test` — frontend tests

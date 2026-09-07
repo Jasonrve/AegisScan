@@ -31,11 +31,6 @@ spec:
       topologySpreadConstraints: {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- if .Values.gitCache.enabled }}
-        - name: git-cache
-          persistentVolumeClaim:
-            claimName: {{ include "aegisscan.fullname" . }}-git-cache
-        {{- end }}
         - name: tmp
           emptyDir: {}
       containers:
@@ -44,44 +39,26 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext: {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           volumeMounts:
-            {{- if .Values.gitCache.enabled }}
-            - name: git-cache
-              mountPath: /var/lib/aegisscan/git-cache
-            {{- end }}
             - name: tmp
               mountPath: /tmp
           ports: [{ name: http, containerPort: 8080 }]
           {{- with .Values.resources }}
           resources: {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if or .Values.env .Values.oidc.enabled .Values.postgresql.external }}
           env:
-            {{- with .Values.env }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            {{- if .Values.oidc.enabled }}
-            - name: AEGIS_OIDC_ISSUER
-              value: {{ .Values.oidc.issuer | quote }}
-            - name: AEGIS_OIDC_AUDIENCE
-              value: {{ .Values.oidc.audience | quote }}
-            - name: AEGIS_OIDC_ROLE_CLAIM
-              value: {{ .Values.oidc.roleClaim | quote }}
-            - name: AEGIS_OIDC_JWKS_URL
-              value: {{ .Values.oidc.jwksURL | quote }}
-            {{- end }}
-            {{- if .Values.postgresql.external }}
-            - name: AEGIS_DATABASE_HOST
-              value: {{ .Values.postgresql.host | quote }}
-            - name: AEGIS_DATABASE_PORT
-              value: {{ .Values.postgresql.port | quote }}
-            - name: AEGIS_DATABASE_NAME
-              value: {{ .Values.postgresql.database | quote }}
-            - name: AEGIS_DATABASE_URL
+            - name: AEGIS_KUBE_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            {{- if .Values.postgresql.enabled }}
+            - name: ConnectionStrings__Postgres
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.postgresql.existingSecret | quote }}
-                  key: database-url
+                  key: {{ .Values.postgresql.secretKey | quote }}
             {{- end }}
-          {{- end }}
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           readinessProbe: { httpGet: { path: /readyz, port: http } }
           livenessProbe: { httpGet: { path: /healthz, port: http } }

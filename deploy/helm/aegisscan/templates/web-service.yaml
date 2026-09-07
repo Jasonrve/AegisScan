@@ -1,0 +1,9 @@
+{{- if .Values.web.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "aegisscan.fullname" . }}-web
+spec:
+  selector: { app.kubernetes.io/name: {{ include "aegisscan.name" . }}-web }
+  ports: [{ name: http, port: {{ .Values.web.service.port }}, targetPort: http }]
+{{- end }}

@@ -1,0 +1,8 @@
+AegisScan has been deployed.
+
+API health: kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "aegisscan.fullname" . }} 8080:{{ .Values.service.port }}
+Then visit http://127.0.0.1:8080/healthz and /readyz.
+
+Database migrations run at API startup under a PostgreSQL advisory lock.
+For CRD schema changes, apply the files in deploy/helm/aegisscan/crds before
+upgrading the release; Helm does not upgrade CRDs automatically.

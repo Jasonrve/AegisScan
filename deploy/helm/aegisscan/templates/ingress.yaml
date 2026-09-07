@@ -20,7 +20,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "aegisscan.fullname" $ }}
+                name: {{ if and $.Values.web.enabled (eq .path "/") }}{{ include "aegisscan.fullname" $ }}-web{{ else }}{{ include "aegisscan.fullname" $ }}{{ end }}
                 port:
                   name: http
           {{- end }}

@@ -5,6 +5,14 @@ web/.playwright-cli/
 web/test-results/
 web/playwright-report/
 web/dist/
-web/node_modules/
 .playwright-cli/
 *.log
+**/bin/
+**/obj/
+deploy/generated/
+node_modules/
+docs/.vitepress/cache/
+*.user
+.vs/
+.env
+.env.*

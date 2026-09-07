@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "replicaCount": {"type": "integer", "minimum": 1},
+    "image": {"type": "object", "required": ["repository", "tag"]},
+    "serviceMonitor": {"type": "object", "properties": {"enabled": {"type": "boolean"}}},
+    "postgresql": {"type": "object", "required": ["enabled", "existingSecret", "secretKey"]}
+  },
+  "additionalProperties": true
+}

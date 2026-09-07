@@ -1,14 +1,19 @@
-FROM golang:1.24 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
-COPY internal ./internal
-COPY cmd ./cmd
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags='-s -w' -o /out/aegisscan ./cmd/aegisscan
+ENV PATH="/root/.dotnet/tools:${PATH}"
+COPY Directory.Build.props global.json ./
+COPY .config ./.config
+COPY src/AegisScan.Operator/AegisScan.Operator.csproj src/AegisScan.Operator/
+RUN dotnet tool restore
+RUN dotnet tool install --global KubeOps.Cli --version 13.2.0
+RUN dotnet restore src/AegisScan.Operator/AegisScan.Operator.csproj
+COPY src/AegisScan.Operator src/AegisScan.Operator
+RUN dotnet publish src/AegisScan.Operator/AegisScan.Operator.csproj -c Release --no-restore -o /out
 
-FROM gcr.io/distroless/static-debian12:nonroot
-COPY --from=build /out/aegisscan /aegisscan
-USER nonroot:nonroot
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+RUN useradd --uid 65532 --create-home --shell /usr/sbin/nologin aegisscan
+COPY --from=build /out .
+USER 65532
 EXPOSE 8080
-ENTRYPOINT ["/aegisscan"]
+ENTRYPOINT ["dotnet", "AegisScan.Operator.dll"]

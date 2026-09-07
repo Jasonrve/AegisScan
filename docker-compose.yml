@@ -13,6 +13,26 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: ["start-dev", "--import-realm", "--health-enabled=true"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      # Pin a single canonical issuer regardless of which host/port a client used to reach Keycloak —
+      # otherwise a token minted via the host-exposed port won't validate against the in-container Authority.
+      KC_HOSTNAME: http://keycloak:8080
+      KC_HTTP_ENABLED: "true"
+    volumes:
+      - ./deploy/dev/keycloak:/opt/keycloak/data/import:ro
+    ports:
+      - "8081:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000 && echo -e 'GET /health/ready HTTP/1.1\\r\\nhost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && grep -q '\"status\": \"UP\"' <&3"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
   k3s:
     image: rancher/k3s:v1.31.5-k3s1
     privileged: true
@@ -24,57 +44,52 @@ services:
     volumes:
       - k3s-data:/var/lib/rancher/k3s
       - k3s-config:/etc/rancher/k3s
+      - ./deploy/generated:/opt/aegisscan/generated:ro
     healthcheck:
       test: ["CMD", "kubectl", "get", "--raw=/readyz"]
       interval: 5s
       timeout: 5s
       retries: 24
 
-  kube-proxy:
-    image: rancher/k3s:v1.31.5-k3s1
-    entrypoint: ["/bin/kubectl"]
-    command: ["--kubeconfig=/dev/null", "--server=https://k3s:6443", "--certificate-authority=/var/lib/rancher/k3s/server/tls/server-ca.crt", "--client-certificate=/var/lib/rancher/k3s/server/tls/client-admin.crt", "--client-key=/var/lib/rancher/k3s/server/tls/client-admin.key", "proxy", "--address=0.0.0.0", "--accept-hosts=^.*$", "--accept-paths=^/.*$"]
-    depends_on:
-      k3s:
-        condition: service_healthy
-    volumes:
-      - k3s-data:/var/lib/rancher/k3s:ro
-      - k3s-config:/etc/rancher/k3s:ro
-
   aegisscan:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      AEGIS_HTTP_ADDR: :8080
-      AEGIS_ALLOW_ROLE_HEADER: "true"
-      AEGIS_ALLOW_DEMO_DATA: "true"
-      AEGIS_ALLOW_ANONYMOUS: "true"
-      AEGIS_DATABASE_URL: postgres://aegisscan:aegisscan-local@postgres:5432/aegisscan?sslmode=disable
-      AEGIS_KUBE_SERVER: http://kube-proxy:8001
-      AEGIS_KUBE_TOKEN: ""
       AEGIS_KUBE_NAMESPACE: default
-      AEGIS_TRUFFLEHOG_IMAGE: trufflesecurity/trufflehog:3.90.8
-      AEGIS_RENOVATE_IMAGE: renovate/renovate:latest
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=aegisscan;Username=aegisscan;Password=aegisscan-local
+      Authentication__Authority: http://keycloak:8080/realms/aegisscan
+      Authentication__Audience: aegisscan-web
+      KUBERNETES_MASTER: https://k3s:6443
+      KUBECONFIG: /etc/rancher/k3s/k3s.yaml
     depends_on:
       postgres:
         condition: service_healthy
+      keycloak:
+        condition: service_healthy
       k3s:
         condition: service_healthy
-      kube-proxy:
-        condition: service_started
     ports:
       - "8080:8080"
+    volumes:
+      - k3s-config:/etc/rancher/k3s:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["sed 's#127.0.0.1#k3s#g' /etc/rancher/k3s/k3s.yaml > /tmp/kubeconfig && export KUBECONFIG=/tmp/kubeconfig && exec dotnet AegisScan.Operator.dll"]
 
   web:
     build:
       context: ./web
       args:
         VITE_API_BASE_URL: .
+        # Browser-reachable Keycloak endpoint (host-exposed port), distinct from the backend's
+        # docker-internal Authority — see the keycloak service's KC_HOSTNAME comment above.
+        VITE_OIDC_AUTHORITY: http://localhost:8081/realms/aegisscan
+        VITE_OIDC_ISSUER: http://keycloak:8080/realms/aegisscan
+        VITE_OIDC_CLIENT_ID: aegisscan-web
     depends_on:
       - aegisscan
     ports:
-      - "3000:80"
+      - "${AEGIS_WEB_PORT:-3000}:80"
 
 volumes:
   postgres-data:

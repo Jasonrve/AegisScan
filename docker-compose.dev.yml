@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    environment:
+      VITE_DEV_API_PROXY_TARGET: http://aegisscan:8080
+      VITE_DOCKER_POLLING: "true"
+      VITE_OIDC_AUTHORITY: http://localhost:8081/realms/aegisscan
+      VITE_OIDC_ISSUER: http://keycloak:8080/realms/aegisscan
+      VITE_OIDC_CLIENT_ID: aegisscan-web

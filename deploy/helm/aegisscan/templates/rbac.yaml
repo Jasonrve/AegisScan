@@ -4,13 +4,25 @@ metadata: { name: {{ include "aegisscan.fullname" . }} }
 rules:
   - apiGroups: ["aegisscan.io"]
     resources: [repositories, repositorysources, scanpolicies]
-    verbs: [get, list, watch, create, update, patch]
+    verbs: ["*"]
+  - apiGroups: ["aegisscan.io"]
+    resources: [repositories/status, repositorysources/status, scanpolicies/status]
+    verbs: [get, update, patch]
   - apiGroups: [""]
-    resources: [secrets]
-    verbs: [get]
+    resources: [events]
+    verbs: [get, list, create, update]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: [leases]
+    verbs: [get, list, watch, create, update, patch, delete]
   - apiGroups: ["batch"]
     resources: [jobs]
     verbs: [get, list, watch, create, delete]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list]
+  - apiGroups: [""]
+    resources: [pods/log]
+    verbs: [get]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
