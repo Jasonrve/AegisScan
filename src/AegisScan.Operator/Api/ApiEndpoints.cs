@@ -630,7 +630,7 @@ public static class ApiEndpoints
         // The webhook signing secret is write-only: it is never returned, only whether one is set.
         // Webhook URLs (Slack/Teams style) are credentials in themselves: non-admins only learn that one is configured.
         return rows.ToDictionary(row => row.Key, row => (row.Key == "webhookSecret" && row.Value != "\"\"") ? JsonElement.Parse("\"********\"")
-            : (row.Key == "webhookUrl" && !isAdmin && row.Value != "\"\"" && row.Value != "null") ? JsonDocument.Parse("\"(configured)\"").RootElement
+            : (row.Key == "webhookUrl" && !isAdmin && row.Value != "\"\"" && row.Value != "null") ? JsonElement.Parse("\"(configured)\"")
             : JsonElement.Parse(row.Value));
     }
 
