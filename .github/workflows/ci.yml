@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with: { dotnet-version: '10.0.x' }
       - run: dotnet tool restore
-      - run: dotnet tool install --global KubeOps.Cli --version 13.2.0
+      - run: dotnet tool install --global KubeOps.Cli --version 14.0.0
       - run: echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
       - run: dotnet restore AegisScan.sln
       - run: dotnet build src/AegisScan.Operator/AegisScan.Operator.csproj -c Release --no-restore
