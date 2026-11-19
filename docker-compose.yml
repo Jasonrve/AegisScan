@@ -35,6 +35,8 @@ services:
 
   k3s:
     image: rancher/k3s:v1.31.5-k3s1
+    # Stable node name: without it every container recreate registers a new node and leaves a stale NotReady one.
+    hostname: k3s
     privileged: true
     command: server --disable=traefik --disable=servicelb --write-kubeconfig-mode=644 --tls-san=k3s
     environment:
@@ -51,12 +53,42 @@ services:
       timeout: 5s
       retries: 24
 
+  # Local GitHub stand-in used to exercise discovery, TruffleHog findings and Renovate PRs/issues end to end
+  # (see scripts/seed-gitea.sh). Dev only: plain HTTP, admin/admin-password.
+  gitea:
+    image: gitea/gitea:1.22
+    environment:
+      GITEA__security__INSTALL_LOCK: "true"
+      GITEA__server__DOMAIN: gitea
+      GITEA__server__ROOT_URL: http://gitea:3000/
+      GITEA__server__DISABLE_SSH: "true"
+      GITEA__service__DISABLE_REGISTRATION: "true"
+      GITEA__database__DB_TYPE: sqlite3
+    ports:
+      - "3300:3000"
+    # Fixed address: scan pods reach Gitea through a CoreDNS entry (scripts/seed-gitea.sh), which must not go stale on restart.
+    networks:
+      default:
+        ipv4_address: 10.250.250.50
+    volumes:
+      - gitea-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/healthz || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
   aegisscan:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       AEGIS_KUBE_NAMESPACE: default
+      # Dev only: allow plain-http clone URLs so the compose Gitea can be registered.
+      AEGIS_ALLOW_INSECURE_CLONE_URLS: "true"
+      AEGIS_SEED_DEMO: "true"
+      # Shared git cache (ADR 0001): PVC created by scripts/seed-gitea.sh from deploy/dev/git-cache.yaml.
+      AEGIS_GIT_CACHE_PVC: aegisscan-git-cache
       ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=aegisscan;Username=aegisscan;Password=aegisscan-local
       Authentication__Authority: http://keycloak:8080/realms/aegisscan
       Authentication__Audience: aegisscan-web
@@ -70,7 +102,7 @@ services:
       k3s:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      - "${AEGIS_API_PORT:-8080}:8080"
     volumes:
       - k3s-config:/etc/rancher/k3s:ro
     entrypoint: ["/bin/sh", "-c"]
@@ -91,7 +123,14 @@ services:
     ports:
       - "${AEGIS_WEB_PORT:-3000}:80"
 
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.250.250.0/24
+
 volumes:
+  gitea-data:
   postgres-data:
   k3s-data:
   k3s-config:

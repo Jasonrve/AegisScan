@@ -23,6 +23,11 @@ rules:
   - apiGroups: [""]
     resources: [pods/log]
     verbs: [get]
+  # PR mode preflight: check that the scanner-credentials Secret holds a renovate-token (the Secret value is only ever read by the scan pod).
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [aegisscan-scanner-credentials]
+    verbs: [get]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

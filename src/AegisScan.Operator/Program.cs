@@ -66,7 +66,8 @@ builder.Services.AddRateLimiter(options =>
         var key = context.User.Identity?.Name ?? context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
         return RateLimitPartition.GetFixedWindowLimiter(key, _ => new FixedWindowRateLimiterOptions
         {
-            PermitLimit = 100,
+            // The UI polls every 5s (~40 requests/min per open tab, keyed by user), so 100/min made multi-tab users hit 429.
+            PermitLimit = builder.Configuration.GetValue("RateLimiting:PermitLimitPerMinute", 300),
             Window = TimeSpan.FromMinutes(1),
             QueueLimit = 0
         });
@@ -77,7 +78,9 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    await scope.ServiceProvider.GetRequiredService<AegisDbContext>().Database.MigrateAsync();
+    var migrated = scope.ServiceProvider.GetRequiredService<AegisDbContext>();
+    await migrated.Database.MigrateAsync();
+    if (Environment.GetEnvironmentVariable("AEGIS_SEED_DEMO") == "true") DemoData.Seed(migrated);
 }
 
 app.Use(async (context, next) =>

@@ -60,12 +60,21 @@ public sealed class RepositorySourceController(IKubernetesClient client, IHttpCl
     {
         var httpClient = httpClientFactory.CreateClient("resilient");
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("AegisScan/1.0");
-        var url = $"https://api.github.com/orgs/{Uri.EscapeDataString(source.Spec.Organization)}/repos?per_page=100";
-        using var response = await httpClient.GetAsync(url, ct);
-        response.EnsureSuccessStatusCode();
-        var payload = await response.Content.ReadFromJsonAsync<List<GitHubRepo>>(cancellationToken: ct) ?? [];
+        // GitHub pages at 100: follow the pages until a short one, so an organisation with more repositories is not silently truncated.
+        var payload = new List<GitHubRepo>();
+        for (var page = 1; page <= MaxPages; page++)
+        {
+            var url = $"https://api.github.com/orgs/{Uri.EscapeDataString(source.Spec.Organization)}/repos?per_page=100&page={page}";
+            using var response = await httpClient.GetAsync(url, ct);
+            response.EnsureSuccessStatusCode();
+            var batch = await response.Content.ReadFromJsonAsync<List<GitHubRepo>>(cancellationToken: ct) ?? [];
+            payload.AddRange(batch);
+            if (batch.Count < 100) break;
+        }
         return payload.Where(r => (source.Spec.IncludeArchived || !r.Archived) && MatchesFilters(r.Name, source.Spec.Include, source.Spec.Exclude)).ToList();
     }
+
+    private const int MaxPages = 20; // 2000 repositories; unauthenticated GitHub calls are limited to 60/hour
 
     private static bool MatchesFilters(string name, List<string> include, List<string> exclude)
     {

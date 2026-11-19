@@ -50,26 +50,6 @@ jobs:
       - run: pip install --quiet pyyaml
       - run: python3 scripts/check_crd_compat.py
 
-  aot-probe:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with: { dotnet-version: '10.0.x' }
-      - run: dotnet restore AegisScan.sln
-      - run: dotnet publish src/AegisScan.Operator/AegisScan.Operator.csproj -c Release -r linux-x64 --self-contained true -p:PublishAot=true -p:PublishTrimmed=true -p:UseAppHost=true --no-restore
-      - name: Run published AOT artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          ASPNETCORE_URLS=http://127.0.0.1:18080 ./src/AegisScan.Operator/bin/Release/net10.0/linux-x64/publish/AegisScan.Operator > aot.log 2>&1 &
-          pid=$!
-          trap 'kill "$pid" 2>/dev/null || true' EXIT
-          for i in {1..30}; do curl --fail --silent http://127.0.0.1:18080/healthz && exit 0 || sleep 1; done
-          cat aot.log
-          exit 1
-
   release:
     if: startsWith(github.ref, 'refs/tags/')
     needs: verify

@@ -1,0 +1,2310 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:dab17428-c318-4775-9e40-904b60f06087",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-06T08:55:07+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "group": "aquasecurity",
+          "name": "trivy",
+          "version": "0.58.1"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "d3681bfd-c7f6-4bed-b70a-fe582a324baf",
+      "type": "application",
+      "name": "/w",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "d7679cdf-e6c2-4291-a362-f8bdb75e0397",
+      "type": "application",
+      "name": "package-lock.json",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40oxc-project/types@0.148.0",
+      "type": "library",
+      "group": "@oxc-project",
+      "name": "types",
+      "version": "0.148.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40oxc-project/types@0.148.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@oxc-project/types@0.148.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-android-arm-eabi",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-android-arm-eabi@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-android-arm64@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-android-arm64",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-android-arm64@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-android-arm64@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-darwin-arm64",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-darwin-arm64@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-darwin-x64@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-darwin-x64",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-darwin-x64@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-darwin-x64@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-freebsd-x64",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-freebsd-x64@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-arm-gnueabihf",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-arm-gnueabihf@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-arm64-gnu",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-arm64-gnu@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-arm64-musl",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-arm64-musl@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-ppc64-gnu",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-ppc64-gnu@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-s390x-gnu",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-s390x-gnu@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-x64-gnu",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-x64-gnu@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-linux-x64-musl",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-linux-x64-musl@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-openharmony-arm64",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-openharmony-arm64@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-win32-arm64-msvc",
+      "version": "1.2.7",
+      "purl": "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-win32-arm64-msvc@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.7",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "binding-win32-x64-msvc",
+      "version": "1.2.7",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/binding-win32-x64-msvc@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40rolldown/pluginutils@1.0.1",
+      "type": "library",
+      "group": "@rolldown",
+      "name": "pluginutils",
+      "version": "1.0.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40rolldown/pluginutils@1.0.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@rolldown/pluginutils@1.0.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40types/node@26.4.1",
+      "type": "library",
+      "group": "@types",
+      "name": "node",
+      "version": "26.4.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/node@26.4.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@types/node@26.4.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-aix-ppc64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-aix-ppc64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-darwin-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-darwin-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-darwin-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-darwin-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-freebsd-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-freebsd-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-freebsd-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-freebsd-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-arm",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-arm@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-loong64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-loong64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-mips64el",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-mips64el@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-ppc64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-ppc64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-riscv64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-riscv64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-s390x",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-s390x@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-linux-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-linux-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-netbsd-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-netbsd-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-netbsd-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-netbsd-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-openbsd-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-openbsd-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-openbsd-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-openbsd-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-sunos-x64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-sunos-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-win32-arm64",
+      "version": "7.0.2",
+      "purl": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-win32-arm64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2",
+      "type": "library",
+      "group": "@typescript",
+      "name": "typescript-win32-x64",
+      "version": "7.0.2",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@typescript/typescript-win32-x64@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/%40vitejs/plugin-react@6.1.1",
+      "type": "library",
+      "group": "@vitejs",
+      "name": "plugin-react",
+      "version": "6.1.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40vitejs/plugin-react@6.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "@vitejs/plugin-react@6.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/detect-libc@2.1.2",
+      "type": "library",
+      "name": "detect-libc",
+      "version": "2.1.2",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/detect-libc@2.1.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "detect-libc@2.1.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/fdir@6.5.0",
+      "type": "library",
+      "name": "fdir",
+      "version": "6.5.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fdir@6.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "fdir@6.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/fsevents@2.3.3",
+      "type": "library",
+      "name": "fsevents",
+      "version": "2.3.3",
+      "purl": "pkg:npm/fsevents@2.3.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "fsevents@2.3.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/jwt-decode@4.0.0",
+      "type": "library",
+      "name": "jwt-decode",
+      "version": "4.0.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jwt-decode@4.0.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "jwt-decode@4.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-android-arm64@1.33.0",
+      "type": "library",
+      "name": "lightningcss-android-arm64",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-android-arm64@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-android-arm64@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+      "type": "library",
+      "name": "lightningcss-darwin-arm64",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-darwin-arm64@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-darwin-x64@1.33.0",
+      "type": "library",
+      "name": "lightningcss-darwin-x64",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-darwin-x64@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-darwin-x64@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+      "type": "library",
+      "name": "lightningcss-freebsd-x64",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-freebsd-x64@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+      "type": "library",
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-linux-arm-gnueabihf@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+      "type": "library",
+      "name": "lightningcss-linux-arm64-gnu",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-linux-arm64-gnu@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+      "type": "library",
+      "name": "lightningcss-linux-arm64-musl",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-linux-arm64-musl@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+      "type": "library",
+      "name": "lightningcss-linux-x64-gnu",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-linux-x64-gnu@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+      "type": "library",
+      "name": "lightningcss-linux-x64-musl",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-linux-x64-musl@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+      "type": "library",
+      "name": "lightningcss-win32-arm64-msvc",
+      "version": "1.33.0",
+      "purl": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-win32-arm64-msvc@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0",
+      "type": "library",
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.33.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MPL-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss-win32-x64-msvc@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/lightningcss@1.33.0",
+      "type": "library",
+      "name": "lightningcss",
+      "version": "1.33.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MPL-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lightningcss@1.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "lightningcss@1.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/nanoid@3.3.18",
+      "type": "library",
+      "name": "nanoid",
+      "version": "3.3.18",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/nanoid@3.3.18",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nanoid@3.3.18"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/oidc-client-ts@3.5.0",
+      "type": "library",
+      "name": "oidc-client-ts",
+      "version": "3.5.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/oidc-client-ts@3.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "oidc-client-ts@3.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/picocolors@1.1.1",
+      "type": "library",
+      "name": "picocolors",
+      "version": "1.1.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/picocolors@1.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "picocolors@1.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/picomatch@4.0.7",
+      "type": "library",
+      "name": "picomatch",
+      "version": "4.0.7",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/picomatch@4.0.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "picomatch@4.0.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/postcss@8.5.28",
+      "type": "library",
+      "name": "postcss",
+      "version": "8.5.28",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/postcss@8.5.28",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "postcss@8.5.28"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/react-dom@19.2.8",
+      "type": "library",
+      "name": "react-dom",
+      "version": "19.2.8",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/react-dom@19.2.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "react-dom@19.2.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/react@19.2.8",
+      "type": "library",
+      "name": "react",
+      "version": "19.2.8",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/react@19.2.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "react@19.2.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/rolldown@1.2.7",
+      "type": "library",
+      "name": "rolldown",
+      "version": "1.2.7",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/rolldown@1.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "rolldown@1.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/scheduler@0.27.0",
+      "type": "library",
+      "name": "scheduler",
+      "version": "0.27.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/scheduler@0.27.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "scheduler@0.27.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/source-map-js@1.2.1",
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "source-map-js@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/tinyglobby@0.2.17",
+      "type": "library",
+      "name": "tinyglobby",
+      "version": "0.2.17",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/tinyglobby@0.2.17",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "tinyglobby@0.2.17"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/typescript@7.0.2",
+      "type": "library",
+      "name": "typescript",
+      "version": "7.0.2",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/typescript@7.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "typescript@7.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/undici-types@8.3.0",
+      "type": "library",
+      "name": "undici-types",
+      "version": "8.3.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/undici-types@8.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "undici-types@8.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/vite@8.2.2",
+      "type": "library",
+      "name": "vite",
+      "version": "8.2.2",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vite@8.2.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "vite@8.2.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "d3681bfd-c7f6-4bed-b70a-fe582a324baf",
+      "dependsOn": [
+        "d7679cdf-e6c2-4291-a362-f8bdb75e0397"
+      ]
+    },
+    {
+      "ref": "d7679cdf-e6c2-4291-a362-f8bdb75e0397",
+      "dependsOn": [
+        "pkg:npm/%40types/node@26.4.1",
+        "pkg:npm/%40vitejs/plugin-react@6.1.1",
+        "pkg:npm/oidc-client-ts@3.5.0",
+        "pkg:npm/react-dom@19.2.8",
+        "pkg:npm/react@19.2.8",
+        "pkg:npm/typescript@7.0.2",
+        "pkg:npm/vite@8.2.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40oxc-project/types@0.148.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-android-arm64@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-darwin-x64@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40rolldown/pluginutils@1.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40types/node@26.4.1",
+      "dependsOn": [
+        "pkg:npm/undici-types@8.3.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/%40vitejs/plugin-react@6.1.1",
+      "dependsOn": [
+        "pkg:npm/%40rolldown/pluginutils@1.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/detect-libc@2.1.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/fdir@6.5.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/fsevents@2.3.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/jwt-decode@4.0.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-android-arm64@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-darwin-x64@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/lightningcss@1.33.0",
+      "dependsOn": [
+        "pkg:npm/detect-libc@2.1.2",
+        "pkg:npm/lightningcss-android-arm64@1.33.0",
+        "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+        "pkg:npm/lightningcss-darwin-x64@1.33.0",
+        "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+        "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+        "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+        "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+        "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+        "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+        "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+        "pkg:npm/lightningcss-win32-x64-msvc@1.33.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/nanoid@3.3.18",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/oidc-client-ts@3.5.0",
+      "dependsOn": [
+        "pkg:npm/jwt-decode@4.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/picocolors@1.1.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/picomatch@4.0.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/postcss@8.5.28",
+      "dependsOn": [
+        "pkg:npm/nanoid@3.3.18",
+        "pkg:npm/picocolors@1.1.1",
+        "pkg:npm/source-map-js@1.2.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/react-dom@19.2.8",
+      "dependsOn": [
+        "pkg:npm/scheduler@0.27.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/react@19.2.8",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/rolldown@1.2.7",
+      "dependsOn": [
+        "pkg:npm/%40oxc-project/types@0.148.0",
+        "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.7",
+        "pkg:npm/%40rolldown/binding-android-arm64@1.2.7",
+        "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.7",
+        "pkg:npm/%40rolldown/binding-darwin-x64@1.2.7",
+        "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.7",
+        "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.7",
+        "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.7",
+        "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.7",
+        "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.7",
+        "pkg:npm/%40rolldown/pluginutils@1.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/scheduler@0.27.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/source-map-js@1.2.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/tinyglobby@0.2.17",
+      "dependsOn": [
+        "pkg:npm/fdir@6.5.0",
+        "pkg:npm/picomatch@4.0.7"
+      ]
+    },
+    {
+      "ref": "pkg:npm/typescript@7.0.2",
+      "dependsOn": [
+        "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+        "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+        "pkg:npm/%40typescript/typescript-linux-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+        "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+        "pkg:npm/%40typescript/typescript-win32-x64@7.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/undici-types@8.3.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:npm/vite@8.2.2",
+      "dependsOn": [
+        "pkg:npm/fsevents@2.3.3",
+        "pkg:npm/lightningcss@1.33.0",
+        "pkg:npm/picomatch@4.0.7",
+        "pkg:npm/postcss@8.5.28",
+        "pkg:npm/rolldown@1.2.7",
+        "pkg:npm/tinyglobby@0.2.17"
+      ]
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "id": "CVE-2026-112942",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 8.8,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+      ],
+      "cwes": [
+        77
+      ],
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor-middleware processes an attacker-controlled Windows file argument where the file argument ends in a parent-directory component plus a line-and-column suffix: the path is resolved while the suffix is still present, and launch-editor removes the suffix before its existsSync check, leaving the existing parent directory for existsSync and allowing the attacker-controlled file argument to pass filename existence validation without requiring the malicious filename to exist. The bypass can lead to OS command injection when combined with the separately described Windows percent-expansion flaw. This issue is fixed in version 2.14.2.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112942"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112942"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112942"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/commit/f13cd835d4b8e860b1d4d080ad8a490cc2463679"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/releases/tag/v2.14.2"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/security/advisories/GHSA-587h-7wmj-h5pm"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112942"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112942"
+        }
+      ],
+      "published": "2026-10-20T15:17:17+00:00",
+      "updated": "2026-10-21T16:17:15+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-112943",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 8.1,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+      ],
+      "cwes": [
+        78
+      ],
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor did not escape % on Windows when passing an argument to cmd. When an environment variable contained a malicious value, it was possible that that content to be executed. This vulnerability is fixed in 2.14.2.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112943"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112943"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112943"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/commit/3c2f9bf2ff8fe63d056a8f9cc52d825b66ca79fc"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/pull/155"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/releases/tag/v2.14.2"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/security/advisories/GHSA-698v-4r3x-3vcv"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112943"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112943"
+        }
+      ],
+      "published": "2026-10-20T15:17:17+00:00",
+      "updated": "2026-10-20T19:55:49+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-112944",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 6.7,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H"
+        }
+      ],
+      "cwes": [
+        88
+      ],
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, when an attacker can create a filesystem entry beginning with plus or minus in the working directory, an affected editor is selected, and the path can remain relative or is converted to a relative WSL path, launchEditor forwards the path without forcing it to be interpreted as a positional filename. Editor option parsing then treats the attacker-controlled filename as a command-line flag, which can cause unintended file overwrite or arbitrary command execution by the selected editor. The affected editors are Vim and gVim, MacVim, Emacs and Emacsclient, and Notepad++ when a plugin exposes dangerous operations; WSL path conversion keeps Vite and newer middleware callers exposed. This issue is fixed in version 2.14.2.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112944"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112944"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112944"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/commit/f6e6701bb1f16f2dd242b321374f1b6cca6eb6d4"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/pull/156"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/releases/tag/v2.14.2"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/security/advisories/GHSA-r825-w8mm-5pxw"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112944"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112944"
+        }
+      ],
+      "published": "2026-10-20T15:17:17+00:00",
+      "updated": "2026-10-20T19:55:49+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-112945",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 6.1,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ],
+      "cwes": [
+        80
+      ],
+      "description": "Vite is a frontend tooling framework for JavaScript. Prior to 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3, applications using custom middleware are vulnerable when they pass an unchanged browser request URL to server.transformIndexHtml. getHtmlFilename uses the query-bearing request URL to resolve an existing local file while preserving attacker-supplied leading slashes in the generated proxy module URL. If the transformed HTML contains an inline module script and a victim browser loads the crafted development-server page, the leading double slash makes the browser fetch and execute an attacker-controlled module in the Vite-served page. This execution can expose sensitive page data or permit critical actions available to the affected application. This issue is fixed in versions 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112945"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112945"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112945"
+        },
+        {
+          "url": "https://github.com/vitejs/vite"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/7dafd8e56f152403a3230608fa4005273c2e9e17"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/pull/23653"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/security/advisories/GHSA-9jrq-w75r-8gcw"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112945"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112945"
+        }
+      ],
+      "published": "2026-10-20T16:17:05+00:00",
+      "updated": "2026-10-28T15:17:03+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-112946",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 3.7,
+          "severity": "low",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        22,
+        284
+      ],
+      "description": "Vite is a frontend tooling framework for JavaScript. Prior to 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3, import analysis can record a root-relative browser URL in safeModulePaths instead of the cleaned resolved module identifier. On a network-accessible, non-Windows development server, an imported project file whose URL matches an absolute host path can authorize a later raw-filesystem request for that host file, provided server.fs.deny does not block it. The request can disclose the matching file outside the project root, but it does not allow arbitrary path traversal because the host path must correspond to a project-relative URL authorized by the application graph. This issue is fixed in versions 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4, 8.1.6, 7.3.7, 6.4.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112946"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112946"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112946"
+        },
+        {
+          "url": "https://github.com/vitejs/vite"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/170b92791421bcd484f7325936d989a82d6bd4aa"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/45c0e3392a298626955a0ab93a8e51232daac721"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/c3e06f92e969952466b4e2f5801e85e1e00cd905"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/e570d8d016096b5f8f6f09808376ca6cf73f27d0"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/f0d76c7da13d5e794807b82f0b86c1931a8438e3"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/pull/23656"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/security/advisories/GHSA-rq7h-c2jc-7f22"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112946"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112946"
+        }
+      ],
+      "published": "2026-10-20T16:17:05+00:00",
+      "updated": "2026-10-20T19:56:45+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-112947",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        22,
+        200,
+        209
+      ],
+      "description": "Vite is a frontend tooling framework for JavaScript. From 8.2.0 until 8.2.4 and 8.3.3, the first 4 bytes of files outside of server.fs setting can be returned to the browser by a request containing ?vite-wasm-instance. Requests containing the ?vite-wasm-instance query are handled by the internal Wasm plugin's load hook. The hook removes the query and reads the resulting path directly from disk, but the server.fs checks were not applied. After reading the file, Vite attempts to parse it as WebAssembly. When that parse fails, Node and deno throws an error that contains the first 4 bytes of the file. This vulnerability is fixed in 8.2.4 and 8.3.3.",
+      "recommendation": "Upgrade vite to version 8.3.3, 8.2.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-112947"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-112947"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-112947"
+        },
+        {
+          "url": "https://github.com/vitejs/vite"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/b6c6d2fb3f853aab4092dc25f0d6816a96c23dff"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/commit/ba8b7ab43b4afa5d0292ab4b6e3a7b5033cc9c73"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/pull/23655"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/security/advisories/GHSA-vfpm-58rq-9qcg"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112947"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-112947"
+        }
+      ],
+      "published": "2026-10-20T16:17:05+00:00",
+      "updated": "2026-10-21T16:17:15+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@8.2.2",
+          "versions": [
+            {
+              "version": "8.2.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-93749",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ],
+      "cwes": [
+        1284
+      ],
+      "description": "source-map-js through 1.2.1 fails to validate the per-section offset line value in indexed source maps, allowing attackers to specify arbitrary numeric values. Attackers can supply extremely large offset line values that cause synchronous event loop blocking for extended periods, preventing the service from handling other requests.",
+      "recommendation": "Upgrade source-map-js to version 1.2.2",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-93749"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-93749"
+        },
+        {
+          "url": "https://advisory.echohq.com/cve/CVE-2026-93749"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js/blob/c1cd8904bb7bd0c7fb5879fcda48134d82a27934/lib/source-node.js#L115-L118"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js/commit/cf7658058ceeaa8619d5ae0ec90be6905209d016"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js/issues/76"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js/pull/79"
+        },
+        {
+          "url": "https://github.com/7rulnik/source-map-js/releases/tag/v1.2.2"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93749"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-93749"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/source-map-js-through-1.2.1-event-loop-denial-of-service"
+        }
+      ],
+      "published": "2026-09-18T18:18:33+00:00",
+      "updated": "2026-09-22T20:25:55+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/source-map-js@1.2.1",
+          "versions": [
+            {
+              "version": "1.2.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

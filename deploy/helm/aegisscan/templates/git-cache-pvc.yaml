@@ -1,0 +1,16 @@
+{{- if .Values.gitCache.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aegisscan.fullname" . }}-git-cache
+  labels:
+    app.kubernetes.io/name: {{ include "aegisscan.name" . }}
+spec:
+  accessModes: [{{ .Values.gitCache.accessMode }}]
+  {{- with .Values.gitCache.storageClassName }}
+  storageClassName: {{ . }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.gitCache.size }}
+{{- end }}

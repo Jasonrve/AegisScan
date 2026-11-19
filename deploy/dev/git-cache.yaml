@@ -1,0 +1,8 @@
+# Dev (compose k3s) PVC for the shared Git cache. local-path is ReadWriteOnce and the cluster has one node, so all scan Jobs can use it.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: aegisscan-git-cache, namespace: default}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources: {requests: {storage: 5Gi}}

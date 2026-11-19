@@ -22,6 +22,26 @@ namespace AegisScan.KubeOps.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AegisScan.KubeOps.Data.AlertAckEntity", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("AcknowledgedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Actor")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("SnoozeUntil")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("AlertAcks");
+                });
+
             modelBuilder.Entity("AegisScan.KubeOps.Data.AuditEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -68,13 +88,23 @@ namespace AegisScan.KubeOps.Data.Migrations
                     b.Property<int>("Attempt")
                         .HasColumnType("integer");
 
+                    b.Property<string>("CommitSHA")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FindingCount")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset?>("FinishedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("JobName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LinksJson")
                         .HasColumnType("text");
 
                     b.Property<string>("Mode")
@@ -83,6 +113,12 @@ namespace AegisScan.KubeOps.Data.Migrations
 
                     b.Property<DateTimeOffset?>("NotBefore")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("OutputInterpreted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("OutputLog")
+                        .HasColumnType("text");
 
                     b.Property<string>("RepositoryId")
                         .IsRequired()
@@ -113,7 +149,23 @@ namespace AegisScan.KubeOps.Data.Migrations
                     b.Property<string>("Fingerprint")
                         .HasColumnType("text");
 
+                    b.Property<string>("Advisories")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Assignee")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("CommitSHA")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Detail")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -121,15 +173,61 @@ namespace AegisScan.KubeOps.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ExecutionId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("FirstSeenAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HelpUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IntroducedCommit")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastSeenAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Preview")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PullRequestNumber")
+                        .HasColumnType("integer");
+
                     b.Property<string>("RepositoryId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("ResolvedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SafePath")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Scanner")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Severity")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("SourceLine")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SourceUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UpdateType")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -186,44 +284,19 @@ namespace AegisScan.KubeOps.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Repositories");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "acme-web",
-                            ActiveFindingCount = 0,
-                            CacheState = "warm",
-                            CloneUrl = "https://github.com/acme/acme-web.git",
-                            DefaultBranch = "main",
-                            LatestCommitSHA = "",
-                            Name = "acme-web",
-                            Provider = "github",
-                            Status = "Ready"
-                        },
-                        new
-                        {
-                            Id = "platform-api",
-                            ActiveFindingCount = 0,
-                            CacheState = "warm",
-                            CloneUrl = "https://gitlab.com/acme/platform-api.git",
-                            DefaultBranch = "main",
-                            LatestCommitSHA = "",
-                            Name = "platform-api",
-                            Provider = "gitlab",
-                            Status = "Ready"
-                        },
-                        new
-                        {
-                            Id = "mobile-app",
-                            ActiveFindingCount = 0,
-                            CacheState = "stale",
-                            CloneUrl = "https://github.com/acme/mobile-app.git",
-                            DefaultBranch = "main",
-                            LatestCommitSHA = "",
-                            Name = "mobile-app",
-                            Provider = "github",
-                            Status = "Ready"
-                        });
+            modelBuilder.Entity("AegisScan.KubeOps.Data.RepositoryImageEntity", b =>
+                {
+                    b.Property<string>("RepositoryId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Ref")
+                        .HasColumnType("text");
+
+                    b.HasKey("RepositoryId", "Ref");
+
+                    b.ToTable("RepositoryImages");
                 });
 
             modelBuilder.Entity("AegisScan.KubeOps.Data.RoleMappingEntity", b =>
@@ -240,6 +313,71 @@ namespace AegisScan.KubeOps.Data.Migrations
                     b.ToTable("RoleMappings");
                 });
 
+            modelBuilder.Entity("AegisScan.KubeOps.Data.SbomEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CommitSHA")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ComponentCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Critical")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Error")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExecutionId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("GeneratedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("High")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Low")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Medium")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Ref")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RepositoryId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepositoryId");
+
+                    b.ToTable("Sboms");
+                });
+
             modelBuilder.Entity("AegisScan.KubeOps.Data.ScannerEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -251,6 +389,10 @@ namespace AegisScan.KubeOps.Data.Migrations
 
                     b.Property<bool>("BuiltIn")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("CommandJson")
                         .IsRequired()
@@ -267,6 +409,14 @@ namespace AegisScan.KubeOps.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("OutputFormat")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SuccessExitCodesJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Scanners");
@@ -277,20 +427,39 @@ namespace AegisScan.KubeOps.Data.Migrations
                             Id = "trufflehog",
                             ArgsJson = "[]",
                             BuiltIn = true,
+                            Category = "secrets",
                             CommandJson = "[\"trufflehog\",\"filesystem\",\"{{workspace}}\",\"--json\",\"--no-update\"]",
                             Enabled = true,
                             Image = "trufflesecurity/trufflehog:3.90.8",
-                            Name = "TruffleHog"
+                            Name = "TruffleHog",
+                            OutputFormat = "native",
+                            SuccessExitCodesJson = "[0]"
                         },
                         new
                         {
                             Id = "renovate",
-                            ArgsJson = "[\"--platform=local\",\"--report-type=logging\"]",
+                            ArgsJson = "[\"--platform=local\",\"--report-type=logging\",\"--dry-run=lookup\"]",
                             BuiltIn = true,
+                            Category = "dependencies",
                             CommandJson = "[]",
                             Enabled = true,
-                            Image = "renovate/renovate:latest",
-                            Name = "Renovate"
+                            Image = "renovate/renovate:44.155.7",
+                            Name = "Renovate",
+                            OutputFormat = "native",
+                            SuccessExitCodesJson = "[0]"
+                        },
+                        new
+                        {
+                            Id = "sbom",
+                            ArgsJson = "[]",
+                            BuiltIn = true,
+                            Category = "vulnerabilities",
+                            CommandJson = "[]",
+                            Enabled = true,
+                            Image = "aquasec/trivy:0.58.1",
+                            Name = "SBOM (Trivy)",
+                            OutputFormat = "native",
+                            SuccessExitCodesJson = "[0]"
                         });
                 });
 
@@ -312,11 +481,6 @@ namespace AegisScan.KubeOps.Data.Migrations
                         {
                             Key = "retentionDays",
                             Value = "90"
-                        },
-                        new
-                        {
-                            Key = "cacheRetentionGB",
-                            Value = "20"
                         });
                 });
 #pragma warning restore 612, 618

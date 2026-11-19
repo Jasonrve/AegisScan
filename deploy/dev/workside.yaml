@@ -1,0 +1,8 @@
+# Dev: discover every public repository of the Workside-Security GitHub organisation (forks of vulnerable apps, samples and libraries).
+# Applied by scripts/seed-workside.sh; the operator creates one Repository per GitHub repository.
+apiVersion: aegisscan.io/v1alpha1
+kind: RepositorySource
+metadata: {name: workside-security, namespace: default}
+spec:
+  provider: github
+  organization: Workside-Security

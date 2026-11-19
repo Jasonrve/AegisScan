@@ -12,7 +12,7 @@
       "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "redirectUris": ["http://localhost:3000/*", "http://localhost:4173/*", "http://127.0.0.1:3000/*"],
+      "redirectUris": ["http://localhost:3000/*", "http://localhost:3100/*", "http://localhost:4173/*", "http://127.0.0.1:3000/*"],
       "webOrigins": ["*"],
       "attributes": { "post.logout.redirect.uris": "+" },
       "protocolMappers": [

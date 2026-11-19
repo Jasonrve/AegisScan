@@ -60,3 +60,11 @@ affinity: {}
 topologySpreadConstraints: []
 podAnnotations: {}
 env: []
+
+# Shared Git cache (ADR 0001): one bare mirror per repository on a shared PVC, refreshed under a lock, then private clones for each scan Job.
+# ReadWriteMany storage is needed when scan Jobs can land on different nodes; ReadWriteOnce works on a single node (e.g. k3s local-path).
+gitCache:
+  enabled: false
+  size: 20Gi
+  storageClassName: ""
+  accessMode: ReadWriteMany

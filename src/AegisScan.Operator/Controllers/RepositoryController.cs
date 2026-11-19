@@ -52,7 +52,7 @@ public sealed class RepositoryController(IKubernetesClient client, IServiceScope
         var row = await db.Repositories.FindAsync([entity.Metadata.Name], cancellationToken);
         if (row is not null)
         {
-            db.Repositories.Remove(row);
+            db.RemoveRepositoryWithData(row);
             await db.SaveChangesAsync(cancellationToken);
         }
         return ReconciliationResult<V1Repository>.Success(entity);
@@ -79,7 +79,8 @@ public sealed class RepositoryController(IKubernetesClient client, IServiceScope
         row.CloneUrl = entity.Spec.CloneURL;
         row.DefaultBranch = entity.Spec.DefaultBranch;
         row.PolicyRef = entity.Spec.PolicyRef;
-        row.Status = entity.Status.Phase;
+        // Blocked is a security decision made by a scan: reconciling the CRD (which only knows Ready/Disabled/Error) must never silently lift it.
+        if (!(row.Status == "Blocked" && entity.Status.Phase == "Ready")) row.Status = entity.Status.Phase;
         await db.SaveChangesAsync(ct);
     }
 

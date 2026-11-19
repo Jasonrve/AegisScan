@@ -46,6 +46,7 @@ export default defineConfig({
           { text: 'Installation', link: '/operations/installation' },
           { text: 'Configuration', link: '/operations/configuration' },
           { text: 'Scanners', link: '/operations/scanners' },
+          { text: 'SBOMs and images', link: '/operations/sbom' },
           { text: 'Identity', link: '/operations/identity' },
           { text: 'CRD upgrades', link: '/operations/crd-upgrades' },
           { text: 'Releases', link: '/operations/releases' },

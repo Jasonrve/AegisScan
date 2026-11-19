@@ -13,6 +13,7 @@ public sealed class PolicyGatingTests
             .Options;
         var db = new AegisDbContext(options);
         db.Database.EnsureCreated();
+        AegisScan.KubeOps.Data.DemoData.Seed(db);
         return db;
     }
 

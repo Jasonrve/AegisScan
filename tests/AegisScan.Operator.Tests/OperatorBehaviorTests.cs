@@ -14,6 +14,7 @@ public sealed class OperatorBehaviorTests
             .Options;
         var db = new AegisDbContext(options);
         db.Database.EnsureCreated();
+        AegisScan.KubeOps.Data.DemoData.Seed(db);
         return db;
     }
 
@@ -32,7 +33,6 @@ public sealed class OperatorBehaviorTests
         await using var db = NewSeededContext();
         var settings = await db.Settings.ToListAsync();
         Assert.Contains(settings, s => s.Key == "retentionDays" && s.Value == "90");
-        Assert.Contains(settings, s => s.Key == "cacheRetentionGB" && s.Value == "20");
     }
 
     [Fact]

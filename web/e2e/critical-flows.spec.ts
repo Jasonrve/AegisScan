@@ -4,7 +4,8 @@ import { loginAs } from './login'
 test('viewer can inspect but cannot launch scans', async ({ page }) => {
   await loginAs(page, 'viewer')
   await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Run Scan' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /Run Scan/ })).toBeDisabled()
+  await expect(page.getByRole('button', { name: /Run Scan/ })).toHaveAttribute('title', 'Requires the operator role')
 })
 
 test('operator can launch a confirmed full scan', async ({ page }) => {

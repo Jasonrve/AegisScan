@@ -50,6 +50,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- if .Values.gitCache.enabled }}
+            - name: AEGIS_GIT_CACHE_PVC
+              value: {{ include "aegisscan.fullname" . }}-git-cache
+            {{- end }}
             {{- if .Values.postgresql.enabled }}
             - name: ConnectionStrings__Postgres
               valueFrom:

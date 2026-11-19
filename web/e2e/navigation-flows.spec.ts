@@ -12,7 +12,13 @@ test('repository creation and live dashboard counts work', async ({ page }) => {
   await page.getByRole('button', { name: /Add repository/ }).last().click()
   await expect(page.getByRole('status')).toContainText('Repository added')
   await page.getByRole('button', { name: 'Repositories' }).click()
+  // The list is paged and sorted, so find the new repository the way a user would: by filtering.
+  await page.getByLabel('Filter repositories').fill(repositoryName)
   await expect(page.getByText(repositoryName)).toBeVisible()
+  // Clean up so shared compose data does not accumulate test repositories.
+  page.once('dialog', dialog => dialog.accept())
+  await page.getByRole('button', { name: 'Remove' }).click()
+  await expect(page.getByRole('status')).toContainText('Repository removed')
 })
 
 test('primary and administration navigation opens functional views', async ({ page }) => {
