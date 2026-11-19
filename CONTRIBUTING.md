@@ -4,7 +4,7 @@ Thanks for helping. Small, focused pull requests are easiest to review.
 
 ## Setup
 
-Prerequisites: .NET 10 SDK, Node.js 22, a container engine (Docker / Rancher Desktop) and Helm.
+Prerequisites: .NET 11 SDK, Node.js 22, a container engine (Docker / Rancher Desktop) and Helm.
 See the [getting started guide](https://jasonrve.github.io/AegisScan/guide/getting-started) and
 [local development](docs/operations/local-development.md).
 

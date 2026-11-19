@@ -15,7 +15,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <a href="https://github.com/Jasonrve/AegisScan/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Jasonrve/AegisScan?include_prereleases"></a>
   <a href="https://github.com/Jasonrve/AegisScan/pkgs/container/aegisscan"><img alt="Container" src="https://img.shields.io/badge/ghcr.io-aegisscan-2496ED?logo=docker&logoColor=white"></a>
-  <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
+  <img alt=".NET 10" src="https://img.shields.io/badge/.NET-11-512BD4?logo=dotnet&logoColor=white">
   <img alt="Kubernetes 1.24+" src="https://img.shields.io/badge/kubernetes-1.24%2B-326CE5?logo=kubernetes&logoColor=white">
   <img alt="Helm" src="https://img.shields.io/badge/helm-chart-0F1689?logo=helm&logoColor=white">
 </p>
