@@ -6,6 +6,9 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # gitleaks-action comments on PRs when it finds leaks
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -28,7 +31,7 @@ jobs:
       - run: npm audit --audit-level=high
         working-directory: web
       - run: docker build -t aegisscan:ci .
-      - uses: aquasecurity/trivy-action@v0.28.0
+      - uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: aegisscan:ci
           format: table
@@ -37,6 +40,8 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
       - run: npm run test:e2e
         working-directory: web
       - uses: actions/upload-artifact@v4
@@ -46,6 +51,7 @@ jobs:
           path: web/playwright-report/
           if-no-files-found: ignore
       - run: docker build -t aegisscan-web:ci web
+      - run: helm repo add groundhog2k https://groundhog2k.github.io/helm-charts && helm repo add codecentric https://codecentric.github.io/helm-charts && helm repo update
       - run: helm dependency build deploy/helm/aegisscan
       - run: helm lint deploy/helm/aegisscan --set authentication.authority=https://idp.example.com/realms/aegisscan
       - run: helm template aegisscan deploy/helm/aegisscan --include-crds --set authentication.authority=https://idp.example.com/realms/aegisscan
@@ -94,6 +100,9 @@ jobs:
       - name: Package and push Helm chart (OCI)
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
+          helm repo add groundhog2k https://groundhog2k.github.io/helm-charts
+          helm repo add codecentric https://codecentric.github.io/helm-charts
+          helm repo update
           helm dependency build deploy/helm/aegisscan
           helm package deploy/helm/aegisscan --version "$VERSION" --app-version "$VERSION"
           helm push "aegisscan-$VERSION.tgz" "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/charts"
