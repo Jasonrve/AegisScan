@@ -5,7 +5,7 @@ COPY Directory.Build.props global.json ./
 COPY .config ./.config
 COPY src/AegisScan.Operator/AegisScan.Operator.csproj src/AegisScan.Operator/
 RUN dotnet tool restore
-RUN dotnet tool install --global KubeOps.Cli --version 13.2.0
+RUN dotnet tool install --global KubeOps.Cli --version 14.0.0
 RUN dotnet restore src/AegisScan.Operator/AegisScan.Operator.csproj
 COPY src/AegisScan.Operator src/AegisScan.Operator
 RUN dotnet publish src/AegisScan.Operator/AegisScan.Operator.csproj -c Release --no-restore -o /out
