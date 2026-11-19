@@ -3,6 +3,7 @@ import type { ActivityRun, Repository } from './dataClient'
 import { IN_FLIGHT, isRetryPending, statusLabel } from './activityGraph'
 import { NavigationContext } from './PaginatedViews'
 import { useActivity } from './useActivity'
+import { StarButton, useScope } from './scope'
 
 const tone = (run?: ActivityRun) => !run ? 'never' : isRetryPending(run) ? 'queued' : run.status
 const elapsed = (run: ActivityRun) => { if (!run.startedAt) return 'waiting'; const s = Math.max(0, Math.round((Date.now() - new Date(run.startedAt).getTime()) / 1000)); return s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s` }
@@ -13,13 +14,21 @@ export default function ActivityView({ repos, token, enabled, relativeTime, pret
   const { activity, failed } = useActivity(token, undefined, enabled)
   const [query, setQuery] = useState('')
   const [show, setShow] = useState('all')
+  const [showIdle, setShowIdle] = useState(false)
+  const scope = useScope()
   const latest = useMemo(() => new Map(activity?.latest.map(r => [`${r.repositoryId}\n${r.scanner}`, r])), [activity])
   const open = useMemo(() => new Map(activity?.open.map(o => [`${o.repositoryId}\n${o.scanner}`, o.count])), [activity])
   if (!enabled) return <section className="panel feature-view"><div className="empty-state"><span>Activity is shown when connected to the live API.</span></div></section>
   if (!activity) return <section className="panel feature-view"><div className="empty-state"><span>{failed ? 'Could not load scan activity.' : 'Loading scan activity…'}</span></div></section>
   const names = new Map(repos.map(r => [r.id, r.name]))
   const q = query.trim().toLowerCase()
-  const rows = repos.filter(r => (!q || r.name.toLowerCase().includes(q)) && (show === 'all' || activity.scanners.some(s => { const run = latest.get(`${r.id}\n${s.id}`); return show === 'active' ? !!run && IN_FLIGHT.includes(run.status) : run?.status === 'failed' })))
+  const hasRun = (r: Repository) => activity.scanners.some(sc => latest.has(`${r.id}\n${sc.id}`))
+  const matched = repos.filter(r => (!scope.ids || scope.has(r.id)) && (!q || r.name.toLowerCase().includes(q)) && (show === 'all' || activity.scanners.some(sc => { const run = latest.get(`${r.id}\n${sc.id}`); return show === 'active' ? !!run && IN_FLIGHT.includes(run.status) : run?.status === 'failed' })))
+  // Repositories that were never scanned only add empty rows: keep them out of the way unless the user is searching or asks.
+  const rows = showIdle || q || !matched.some(hasRun) ? matched : matched.filter(hasRun)
+  const cols = activity.scanners.filter(sc => rows.some(r => latest.has(`${r.id}\n${sc.id}`)))
+  const columns = cols.length ? cols : activity.scanners
+  const sname = (id: string) => activity.scanners.find(sc => sc.id === id)?.name ?? pretty(id)
   const running = activity.active.filter(r => r.status !== 'queued').length
   const retrying = activity.active.filter(r => isRetryPending(r)).length
   const queued = activity.active.length - running - retrying
@@ -27,7 +36,7 @@ export default function ActivityView({ repos, token, enabled, relativeTime, pret
     <div className="panel">
       <div className="panel-head"><div><h2>Running now</h2><p className="feature-note">{running} running · {queued} queued · {retrying} waiting to retry. Updates every few seconds while scans are in flight.</p></div></div>
       {activity.active.length ? <div className="activity-strip">{activity.active.map(run => <button key={run.id} className={`activity-card ${tone(run)}`} onClick={() => openRun(run.id)} title="Open the run log">
-        <b>{pretty(run.scanner)}</b><span>→ {names.get(run.repositoryId) || run.repositoryId}</span>
+        <b>{sname(run.scanner)}</b><span>→ {names.get(run.repositoryId) || run.repositoryId}</span>
         <small>{statusLabel(run)} · {isRetryPending(run) ? `retries ${relativeTime(run.notBefore).replace('just now', 'soon')}` : elapsed(run)}{run.attempt > 1 ? ` · attempt ${run.attempt}` : ''}</small>
         {run.jobName && <small className="mono">{run.jobName}</small>}
       </button>)}</div> : <div className="empty-state"><span>Nothing is running.</span></div>}
@@ -38,15 +47,16 @@ export default function ActivityView({ repos, token, enabled, relativeTime, pret
         <div className="activity-filters"><input className="view-filter" aria-label="Filter repositories" placeholder="Filter repositories" value={query} onChange={e => setQuery(e.target.value)}/>
           <select aria-label="Show" value={show} onChange={e => setShow(e.target.value)}><option value="all">All</option><option value="active">Running or queued</option><option value="failed">Failed</option></select></div>
       </div>
-      <div className="activity-scroll"><div className="activity-matrix" style={{ gridTemplateColumns: `minmax(180px,1.4fr) repeat(${activity.scanners.length}, minmax(130px,1fr))` }}>
-        <div className="feature-header">Repository</div>{activity.scanners.map(s => <div key={s.id} className="feature-header">{s.name}</div>)}
-        {rows.map(r => <Fragment key={r.id}><button className="text-button activity-repo" onClick={() => navigate(r.id)}>{r.name}</button>
-          {activity.scanners.map(s => { const run = latest.get(`${r.id}\n${s.id}`); const n = open.get(`${r.id}\n${s.id}`) ?? 0
+      <div className="activity-scroll"><div className="activity-matrix" style={{ gridTemplateColumns: `28px minmax(180px,1.4fr) repeat(${columns.length}, minmax(130px,1fr))` }}>
+        <div className="feature-header"/><div className="feature-header">Repository</div>{columns.map(s => <div key={s.id} className="feature-header">{s.name}</div>)}
+        {rows.map(r => <Fragment key={r.id}><StarButton id={r.id} name={r.name}/><button className="text-button activity-repo" onClick={() => navigate(r.id)}>{r.name}</button>
+          {columns.map(s => { const run = latest.get(`${r.id}\n${s.id}`); const n = open.get(`${r.id}\n${s.id}`) ?? 0
             return run ? <button key={`${r.id}${s.id}`} className={`activity-cell ${tone(run)}`} onClick={() => openRun(run.id)}>
               <i/><span>{IN_FLIGHT.includes(run.status) ? statusLabel(run) : !run.outputInterpreted && run.status === 'succeeded' ? 'not interpreted' : run.status === 'succeeded' ? `${n} open` : statusLabel(run)}</span><small>{relativeTime(run.finishedAt || run.startedAt || run.createdAt)}</small></button>
               : <span key={`${r.id}${s.id}`} className="activity-cell never"><i/><span>—</span></span> })}</Fragment>)}
       </div>
       </div>{!rows.length && <div className="empty-state"><span>No repositories match.</span></div>}
+      {rows.length < matched.length && <p className="feature-note">{matched.length - rows.length} never-scanned repositories are hidden. <button className="text-button" onClick={() => setShowIdle(true)}>Show them</button></p>}
     </div>
   </section>
 }

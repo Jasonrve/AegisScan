@@ -183,3 +183,26 @@ export type ActivityRun = { id: string; repositoryId: string; scanner: string; m
 export type Activity = { scanners: { id: string; name: string; category: string }[]; latest: ActivityRun[]; active: ActivityRun[]; open: { repositoryId: string; scanner: string; count: number }[]; /** Open findings by severity; only filled when a single repository was requested. */ severities?: { scanner: string; severity: string; count: number }[]; generatedAt: string }
 /** Latest run per repository and scanner, open finding counts and runs in flight; pass a repository id to narrow it to one repository. */
 export async function loadActivity(fetcher: Fetcher = fetch as unknown as Fetcher, token = '', repositoryId?: string): Promise<Activity> { return request(`/api/v1/activity${repositoryId ? `?repositoryId=${encodeURIComponent(repositoryId)}` : ''}`, { token }, fetcher) }
+
+export type DashboardRepo = { id: string; name: string; blocked: boolean; verified: number; critical: number; high: number; medium: number; low: number; categories: Record<string, number> }
+export type DashboardCve = { id: string; severity: string; repos: number; occurrences: number; package: string; fixAvailable: boolean; repoIds: string[]; firstSeen: string }
+export type Dashboard = { days: number; totals: { critical: number; high: number; medium: number; low: number; verifiedSecrets: number; reposWithCritical: number; cvesTotal: number; newCves: number }; repos: DashboardRepo[]; newCves: DashboardCve[]; widespread: DashboardCve[]; generatedAt: string }
+/** Server-side aggregates over every open finding: riskiest repositories, new CVEs (excluding each repository's baseline scan) and the most widespread ones. */
+export async function loadDashboard(days: number, fetcher: Fetcher = fetch as unknown as Fetcher, token = '', repositoryIds: string[] | null = null): Promise<Dashboard> {
+  const d = await request(`/api/v1/dashboard?days=${days}${scopeQuery(repositoryIds)}`, { token }, fetcher)
+  const cve = (c: any): DashboardCve => ({ id: c.id ?? c.Id, severity: c.severity ?? c.Severity, repos: c.repos ?? c.Repos, occurrences: c.occurrences ?? c.Occurrences, package: c.package ?? c.Package, fixAvailable: c.fixAvailable ?? c.FixAvailable ?? false, repoIds: c.repoIds ?? c.RepoIds ?? [], firstSeen: c.firstSeen ?? c.FirstSeen })
+  return { ...d, newCves: d.newCves.map(cve), widespread: d.widespread.map(cve) }
+}
+
+/** "&repositoryId=a&repositoryId=b" for a watch-list scope; empty (= every repository) when the scope is null. */
+export const scopeQuery = (ids: string[] | null) => ids?.length ? ids.map(i => `&repositoryId=${encodeURIComponent(i)}`).join('') : ''
+
+export type Fix = { kind: 'image' | 'package' | 'secret' | 'update' | 'issue'; repositoryId: string; repositoryName: string; title: string; where: string; action: string; severity: string; critical: number; high: number; medium: number; low: number; items: number; fixable: number; verified: boolean; scanner: string }
+export type Fixes = { total: number; shown: number; fixes: Fix[]; totals: { critical: number; high: number; medium: number; low: number; verified: number } }
+const camel = (o: any): any => Array.isArray(o) ? o.map(camel) : o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k[0].toLowerCase() + k.slice(1), camel(v)])) : o
+/** Open findings grouped into actions (update this image, upgrade this package, rotate this secret), worst first. */
+export async function loadFixes(repositoryIds: string[] | null, fetcher: Fetcher = fetch as unknown as Fetcher, token = ''): Promise<Fixes> { return camel(await request(`/api/v1/fixes?${scopeQuery(repositoryIds).slice(1)}`, { token }, fetcher)) }
+
+export type RepositoryRisk = { id: string; blocked: boolean; verified: number; critical: number; high: number; medium: number; low: number; lastScanAt?: string | null }
+/** Severity split, verified secrets and last successful scan for every repository (list views). */
+export async function loadRepositoryRisk(fetcher: Fetcher = fetch as unknown as Fetcher, token = ''): Promise<RepositoryRisk[]> { return items<RepositoryRisk>(await request('/api/v1/risk/repositories', { token }, fetcher)) }

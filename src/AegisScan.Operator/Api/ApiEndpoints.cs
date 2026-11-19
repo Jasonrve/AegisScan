@@ -509,6 +509,8 @@ public static class ApiEndpoints
 
         api.MapSbomApi();
         api.MapActivityApi();
+        api.MapDashboardApi();
+        api.MapFixesApi();
     }
 
     /// <summary>Shape checks for settings the backend reads: a malformed value must be rejected at write time, not break every later read.</summary>
