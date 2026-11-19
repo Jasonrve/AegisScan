@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Cronos" Version="0.13.0" />
     <PackageReference Include="KubeOps.Operator" Version="13.2.0" />
-    <PackageReference Include="KubeOps.Generator" Version="13.2.0">
+    <PackageReference Include="KubeOps.Generator" Version="14.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
