@@ -51,6 +51,7 @@ jobs:
           path: web/playwright-report/
           if-no-files-found: ignore
       - run: docker build -t aegisscan-web:ci web
+      - run: helm repo add groundhog2k https://groundhog2k.github.io/helm-charts && helm repo add codecentric https://codecentric.github.io/helm-charts && helm repo update
       - run: helm dependency build deploy/helm/aegisscan
       - run: helm lint deploy/helm/aegisscan --set authentication.authority=https://idp.example.com/realms/aegisscan
       - run: helm template aegisscan deploy/helm/aegisscan --include-crds --set authentication.authority=https://idp.example.com/realms/aegisscan
@@ -99,6 +100,9 @@ jobs:
       - name: Package and push Helm chart (OCI)
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
+          helm repo add groundhog2k https://groundhog2k.github.io/helm-charts
+          helm repo add codecentric https://codecentric.github.io/helm-charts
+          helm repo update
           helm dependency build deploy/helm/aegisscan
           helm package deploy/helm/aegisscan --version "$VERSION" --app-version "$VERSION"
           helm push "aegisscan-$VERSION.tgz" "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/charts"
