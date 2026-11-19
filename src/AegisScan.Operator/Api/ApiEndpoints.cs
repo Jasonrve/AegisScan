@@ -335,7 +335,7 @@ public static class ApiEndpoints
                 }
                 entity.Value = value.GetRawText();
                 if (before != entity.Value)
-                    changes[key] = key == "webhookSecret" ? "changed" : new { from = before is null ? (object?)null : JsonDocument.Parse(before).RootElement.Clone(), to = value };
+                    changes[key] = key == "webhookSecret" ? "changed" : new { from = before is null ? (object?)null : JsonElement.Parse(before), to = value };
             }
             await RecordAuditAsync(db, user, "settings.update", "settings", "success", changes);
             await db.SaveChangesAsync();
@@ -629,9 +629,9 @@ public static class ApiEndpoints
         var rows = await db.Settings.AsNoTracking().ToListAsync();
         // The webhook signing secret is write-only: it is never returned, only whether one is set.
         // Webhook URLs (Slack/Teams style) are credentials in themselves: non-admins only learn that one is configured.
-        return rows.ToDictionary(row => row.Key, row => (row.Key == "webhookSecret" && row.Value != "\"\"") ? JsonDocument.Parse("\"********\"").RootElement
-            : (row.Key == "webhookUrl" && !isAdmin && row.Value != "\"\"" && row.Value != "null") ? JsonDocument.Parse("\"(configured)\"").RootElement
-            : JsonDocument.Parse(row.Value).RootElement);
+        return rows.ToDictionary(row => row.Key, row => (row.Key == "webhookSecret" && row.Value != "\"\"") ? JsonElement.Parse("\"********\"")
+            : (row.Key == "webhookUrl" && !isAdmin && row.Value != "\"\"" && row.Value != "null") ? JsonElement.Parse("\"(configured)\"")
+            : JsonElement.Parse(row.Value));
     }
 
     internal static Task RecordAuditAsync(AegisDbContext db, ClaimsPrincipal user, string action, string target, string outcome, object? metadata = null)

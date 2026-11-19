@@ -1,6 +1,6 @@
 # Getting started
 
-The repository targets .NET 10 and KubeOps 13.2.0. Install the .NET 10 SDK, Node.js 22, Docker Desktop or Rancher Desktop with a working container engine, and Helm before starting.
+The repository targets .NET 11 and KubeOps 13.2.0. Install the .NET 11 SDK, Node.js 22, Docker Desktop or Rancher Desktop with a working container engine, and Helm before starting.
 
 Run the KubeOps operator/API with `dotnet run --project src/AegisScan.Operator` from the repository root. It listens on `:8080` by default; set `ASPNETCORE_URLS` to change the address.
 
