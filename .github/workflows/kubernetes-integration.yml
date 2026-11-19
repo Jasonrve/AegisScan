@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with: { dotnet-version: '11.0.x' }
       - run: dotnet tool restore
       - run: dotnet tool install --global KubeOps.Cli --version 14.0.0
