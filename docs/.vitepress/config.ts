@@ -1,15 +1,20 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'AegisScan',
   description: 'Kubernetes security automation, built for operators.',
   cleanUrls: true,
   lastUpdated: true,
+  srcExclude: ['tasks-enterprise-readiness-2026-09.md'],
+  head: [['link', { rel: 'icon', href: (process.env.GITHUB_ACTIONS ? '/AegisScan' : '') + '/logo.svg' }]],
+  mermaid: { theme: 'dark' },
   base: process.env.GITHUB_ACTIONS ? '/AegisScan/' : '/',
   themeConfig: {
     logo: '/mark.svg',
     siteTitle: 'AegisScan',
     nav: [
+      { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Developer', link: '/development/getting-started' },
       { text: 'Architecture', link: '/architecture/overview' },
       { text: 'Operations', link: '/operations/installation' },
@@ -20,7 +25,10 @@ export default defineConfig({
         text: 'Start here',
         items: [
           { text: 'Overview', link: '/' },
-          { text: 'Getting started', link: '/development/getting-started' },
+          { text: 'Getting started', link: '/guide/getting-started' },
+          { text: 'Adding a scanner', link: '/guide/adding-a-scanner' },
+          { text: 'Status and roadmap', link: '/roadmap' },
+          { text: 'Developer setup', link: '/development/getting-started' },
           { text: 'Local development', link: '/operations/local-development' }
         ]
       },
@@ -46,6 +54,7 @@ export default defineConfig({
           { text: 'Installation', link: '/operations/installation' },
           { text: 'Configuration', link: '/operations/configuration' },
           { text: 'Scanners', link: '/operations/scanners' },
+          { text: 'Custom scanners', link: '/operations/custom-scanners' },
           { text: 'SBOMs and images', link: '/operations/sbom' },
           { text: 'Identity', link: '/operations/identity' },
           { text: 'CRD upgrades', link: '/operations/crd-upgrades' },
@@ -67,7 +76,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'AegisScan documentation',
-      copyright: 'Released under the project license.'
+      copyright: 'Released under the MIT License.'
     },
     search: { provider: 'local' },
     outline: { level: [2, 3] },
@@ -75,4 +84,4 @@ export default defineConfig({
       pattern: 'https://github.com/Jasonrve/AegisScan/edit/main/docs/:path'
     }
   }
-})
+}))

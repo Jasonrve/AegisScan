@@ -17,3 +17,5 @@ docs/.vitepress/cache/
 .env
 .env.*
 .playwright-mcp/
+docs/.vitepress/dist/
+deploy/helm/aegisscan/charts/*.tgz

@@ -1,6 +1,6 @@
 image:
-  repository: ghcr.io/aegisscan/aegisscan
-  tag: 0.1.0
+  repository: ghcr.io/jasonrve/aegisscan
+  tag: "" # defaults to the chart appVersion
   pullPolicy: IfNotPresent
 # Safe above 1: the scan-execution and scheduling workers coordinate via a Postgres
 # advisory lock (see Scanning/DistributedLock.cs), so only one replica ever acts per tick.
@@ -8,11 +8,24 @@ replicaCount: 2
 imagePullSecrets: []
 service:
   port: 8080
+# OIDC for the API (JWT bearer validation). authority is required: the operator refuses to start without it.
+authentication:
+  authority: ""            # e.g. https://keycloak.example.com/realms/aegisscan; defaults to the bundled Keycloak when keycloak.enabled
+  audience: aegisscan-web  # must appear in the access token's `aud` claim
 web:
   enabled: true
+  # Browser-side login settings. authority defaults to authentication.authority; set issuer only
+  # when tokens carry a different issuer string than the URL the browser uses.
+  oidc:
+    authority: ""
+    issuer: ""
+    clientId: aegisscan-web
+  # sso | password | both. `password` signs in with the OAuth2 password grant against the IdP token
+  # endpoint (the OIDC client must allow direct access grants).
+  loginMode: both
   image:
-    repository: ghcr.io/aegisscan/aegisscan-web
-    tag: 0.1.0
+    repository: ghcr.io/jasonrve/aegisscan-web
+    tag: "" # defaults to the chart appVersion
     pullPolicy: IfNotPresent
   service:
     port: 80
@@ -26,13 +39,61 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
-postgresql:
-  # If enabled, the chart wires a Secret key into ConnectionStrings__Postgres.
-  # It does not deploy a PostgreSQL server itself; point existingSecret at one
-  # you manage (an in-cluster instance, or a managed service).
-  enabled: true
+# Database connection. The API reads the Npgsql connection string from `secretKey` of `existingSecret`.
+# With postgresql.enabled=true the chart creates that Secret itself (name must stay aegisscan-database).
+# Set existingSecret to "" to skip this wiring and inject ConnectionStrings__Postgres through `env`.
+database:
   existingSecret: aegisscan-database
   secretKey: connection-string
+
+# Optional bundled PostgreSQL (official postgres image, groundhog2k/postgres subchart).
+# Leave disabled to use an external or managed database.
+postgresql:
+  enabled: false
+  userDatabase:
+    existingSecret: aegisscan-database
+    name: { secretKey: database }
+    user: { secretKey: username }
+    password: { secretKey: password }
+  storage:
+    persistentVolumeClaim:
+      requestedSize: 8Gi
+
+# Optional bundled Keycloak (official image, codecentric/keycloakx subchart) with an AegisScan realm
+# (client, groups claim, audience mapper). Users are created in the Keycloak admin console and added
+# to the admin / operator / viewer groups. Data lives in an embedded database on a PVC, single replica:
+# fine for evaluation and small teams; use an external IdP or database-backed Keycloak for HA.
+keycloak:
+  enabled: false
+  publicUrl: ""        # REQUIRED when enabled: browser-facing Keycloak URL, e.g. https://auth.example.com
+  realm: aegisscan
+  redirectUris: []     # default: https://<each ingress host>/*
+  replicas: 1
+  command: ["/opt/keycloak/bin/kc.sh", "start", "--import-realm"]
+  http: { relativePath: "/" }
+  database: { vendor: dev-file }
+  metrics: { enabled: false }
+  extraEnv: |
+    - name: KC_BOOTSTRAP_ADMIN_USERNAME
+      valueFrom: { secretKeyRef: { name: aegisscan-keycloak-admin, key: username } }
+    - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+      valueFrom: { secretKeyRef: { name: aegisscan-keycloak-admin, key: password } }
+    - name: KC_HOSTNAME
+      value: {{ .Values.publicUrl | quote }}
+    - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
+      value: "true"
+  extraVolumes: |
+    - name: realm
+      configMap: { name: aegisscan-keycloak-realm }
+  extraVolumeMounts: |
+    - { name: realm, mountPath: /opt/keycloak/data/import, readOnly: true }
+    - { name: data, mountPath: /opt/keycloak/data/h2 }
+  volumeClaimTemplates: |
+    - metadata: { name: data }
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources: { requests: { storage: 1Gi } }
+
 serviceMonitor:
   enabled: false
   interval: 30s

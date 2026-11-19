@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { withBase } from 'vitepress'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -56,8 +57,8 @@ onUnmounted(() => context?.revert())
       <h1 class="hero-title">Make every repository an observable security boundary.</h1>
       <p class="hero-copy">AegisScan turns repository discovery, scanner execution, and findings into one auditable operator workflow.</p>
       <div class="hero-actions">
-        <a class="hero-button hero-button-primary" href="/development/getting-started">Start building</a>
-        <a class="hero-button hero-button-secondary" href="/operations/installation">Deploy to Kubernetes</a>
+        <a class="hero-button hero-button-primary" :href="withBase('/guide/getting-started')">Get started</a>
+        <a class="hero-button hero-button-secondary" :href="withBase('/operations/installation')">Deploy to Kubernetes</a>
       </div>
     </div>
     <div class="hero-visual" aria-label="AegisScan control plane topology" role="img">

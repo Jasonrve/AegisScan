@@ -14,8 +14,8 @@ Core. The connection string is read from the standard ASP.NET Core
 configuration key `ConnectionStrings:Postgres` (environment variable
 `ConnectionStrings__Postgres`, or `appsettings.Development.json` for local
 `dotnet run`). The Helm chart wires this from a Secret you provide via
-`postgresql.existingSecret` / `postgresql.secretKey`; set
-`postgresql.enabled: false` to omit it entirely (for example, to inject the
+`database.existingSecret` / `database.secretKey` (or created by the chart when
+`postgresql.enabled=true`); set `database.existingSecret: ""` to omit it entirely (for example, to inject the
 connection string through `env` instead).
 
 The schema is created via EF Core migrations (`Database.MigrateAsync()` on

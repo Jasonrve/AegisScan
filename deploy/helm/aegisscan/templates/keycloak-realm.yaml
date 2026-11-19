@@ -1,0 +1,49 @@
+{{- if .Values.keycloak.enabled }}
+{{- $existing := lookup "v1" "Secret" .Release.Namespace "aegisscan-keycloak-admin" }}
+{{- $password := randAlphaNum 24 }}
+{{- if and $existing $existing.data }}{{ $password = index $existing.data "password" | b64dec }}{{ end }}
+{{- $redirects := .Values.keycloak.redirectUris }}
+{{- if not $redirects }}
+{{- $redirects = list }}
+{{- range .Values.ingress.hosts }}{{ $redirects = append $redirects (printf "https://%s/*" .host) }}{{ end }}
+{{- end }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aegisscan-keycloak-admin
+  annotations:
+    helm.sh/resource-policy: keep
+type: Opaque
+stringData:
+  username: admin
+  password: {{ $password | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aegisscan-keycloak-realm
+data:
+  realm.json: |
+    {{- dict
+      "realm" .Values.keycloak.realm
+      "enabled" true
+      "sslRequired" "external"
+      "registrationAllowed" false
+      "groups" (list (dict "name" "admin" "path" "/admin") (dict "name" "operator" "path" "/operator") (dict "name" "viewer" "path" "/viewer"))
+      "clients" (list (dict
+        "clientId" .Values.web.oidc.clientId
+        "enabled" true
+        "publicClient" true
+        "protocol" "openid-connect"
+        "standardFlowEnabled" true
+        "directAccessGrantsEnabled" (ne .Values.web.loginMode "sso")
+        "redirectUris" $redirects
+        "webOrigins" (list "+")
+        "attributes" (dict "post.logout.redirect.uris" "+")
+        "protocolMappers" (list
+          (dict "name" "groups" "protocol" "openid-connect" "protocolMapper" "oidc-group-membership-mapper" "consentRequired" false
+            "config" (dict "full.path" "false" "id.token.claim" "true" "access.token.claim" "true" "claim.name" "groups" "userinfo.token.claim" "true"))
+          (dict "name" "audience" "protocol" "openid-connect" "protocolMapper" "oidc-audience-mapper" "consentRequired" false
+            "config" (dict "included.client.audience" .Values.authentication.audience "id.token.claim" "false" "access.token.claim" "true")))))
+      | toPrettyJson | nindent 4 }}
+{{- end }}

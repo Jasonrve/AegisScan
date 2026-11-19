@@ -5,7 +5,9 @@
     "replicaCount": {"type": "integer", "minimum": 1},
     "image": {"type": "object", "required": ["repository", "tag"]},
     "serviceMonitor": {"type": "object", "properties": {"enabled": {"type": "boolean"}}},
-    "postgresql": {"type": "object", "required": ["enabled", "existingSecret", "secretKey"]}
+    "postgresql": {"type": "object", "properties": {"enabled": {"type": "boolean"}}},
+    "keycloak": {"type": "object", "properties": {"enabled": {"type": "boolean"}}},
+    "web": {"type": "object", "properties": {"loginMode": {"enum": ["sso", "password", "both"]}}}
   },
   "additionalProperties": true
 }

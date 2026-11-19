@@ -13,7 +13,9 @@ ENV VITE_OIDC_ISSUER=$VITE_OIDC_ISSUER
 ENV VITE_OIDC_CLIENT_ID=$VITE_OIDC_CLIENT_ID
 RUN npm run build
 
-FROM nginx:1.27-alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM nginxinc/nginx-unprivileged:1.27-alpine
+ENV AEGIS_API_UPSTREAM=aegisscan:8080
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY --chmod=755 docker-entrypoint.d/40-aegis-config.sh /docker-entrypoint.d/40-aegis-config.sh
 COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 8080

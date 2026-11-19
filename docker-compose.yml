@@ -121,7 +121,7 @@ services:
     depends_on:
       - aegisscan
     ports:
-      - "${AEGIS_WEB_PORT:-3000}:80"
+      - "${AEGIS_WEB_PORT:-3000}:8080"
 
 networks:
   default:

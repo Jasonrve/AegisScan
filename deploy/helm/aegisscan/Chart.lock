@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://groundhog2k.github.io/helm-charts
+  version: 1.6.9
+- name: keycloakx
+  repository: https://codecentric.github.io/helm-charts
+  version: 7.4.0
+digest: sha256:0661d98fc180a7e3a2d673d0b372b8d52848ec743a2f9c142952bc04e7450b77
+generated: "2026-11-19T07:30:34.9476627+02:00"

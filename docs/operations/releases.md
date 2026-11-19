@@ -4,10 +4,10 @@ Releases are tag-driven. A tag matching `v*` runs the release job in `.github/wo
 
 ## What a release publishes
 
-- A multi-architecture operator image for `linux/amd64` and `linux/arm64` to GHCR.
+- Multi-architecture operator (`ghcr.io/jasonrve/aegisscan`) and web (`ghcr.io/jasonrve/aegisscan-web`) images for `linux/amd64` and `linux/arm64` to GHCR.
 - An SPDX SBOM attached as a workflow artifact.
-- A Cosign signature for the image.
-- A Helm chart pushed to the GHCR OCI registry.
+- Cosign signatures for both images.
+- The Helm chart pushed to `oci://ghcr.io/jasonrve/charts/aegisscan`.
 
 The image and chart use the tag version without the leading `v` as their application version. Keep the tag semver-compatible because Helm receives it as `--version`.
 

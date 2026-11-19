@@ -35,7 +35,7 @@ spec:
           emptyDir: {}
       containers:
         - name: aegisscan
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext: {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           volumeMounts:
@@ -50,16 +50,20 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: Authentication__Authority
+              value: {{ include "aegisscan.authority" . | quote }}
+            - name: Authentication__Audience
+              value: {{ .Values.authentication.audience | quote }}
             {{- if .Values.gitCache.enabled }}
             - name: AEGIS_GIT_CACHE_PVC
               value: {{ include "aegisscan.fullname" . }}-git-cache
             {{- end }}
-            {{- if .Values.postgresql.enabled }}
+            {{- if .Values.database.existingSecret }}
             - name: ConnectionStrings__Postgres
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgresql.existingSecret | quote }}
-                  key: {{ .Values.postgresql.secretKey | quote }}
+                  name: {{ .Values.database.existingSecret | quote }}
+                  key: {{ .Values.database.secretKey | quote }}
             {{- end }}
             {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}

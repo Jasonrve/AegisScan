@@ -1,13 +1,18 @@
 import { User, UserManager, WebStorageStateStore, type UserProfile } from 'oidc-client-ts'
 
-const authority = import.meta.env.VITE_OIDC_AUTHORITY || ''
+// Runtime settings (container /config.js) win over build-time VITE_* defaults.
+const runtime = (window as unknown as { __AEGIS_CONFIG__?: Record<string, string> }).__AEGIS_CONFIG__ ?? {}
+const authority = runtime.oidcAuthority || import.meta.env.VITE_OIDC_AUTHORITY || ''
 // Compose's Keycloak pins its issuer to the docker-internal hostname (see docker-compose.yml's
 // KC_HOSTNAME comment) so tokens validate against the backend's Authority regardless of which
 // host/port issued them. The browser can't reach that hostname, so it talks to Keycloak via
 // VITE_OIDC_AUTHORITY but must still accept tokens carrying the internal issuer string.
-const issuer = import.meta.env.VITE_OIDC_ISSUER || authority
-const clientId = import.meta.env.VITE_OIDC_CLIENT_ID || 'aegisscan-web'
+const issuer = runtime.oidcIssuer || import.meta.env.VITE_OIDC_ISSUER || authority
+const clientId = runtime.oidcClientId || import.meta.env.VITE_OIDC_CLIENT_ID || 'aegisscan-web'
 const origin = window.location.origin
+// sso | password | both (default): which sign-in options the login screen offers.
+const mode = runtime.loginMode || import.meta.env.VITE_LOGIN_MODE
+export const loginMode: 'sso' | 'password' | 'both' = mode === 'sso' || mode === 'password' ? mode : 'both'
 
 export const userManager = new UserManager({
   authority: issuer,

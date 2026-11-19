@@ -39,7 +39,7 @@ storage, a managed backup service). Compose/local dev doesn't need this — the
 
 **Restore**: provision a fresh PostgreSQL instance (or point at an existing
 empty one), `pg_restore` the dump, then point `ConnectionStrings__Postgres`
-(or the Helm `postgresql.existingSecret`) at it and roll the operator pods.
+(or the Helm `database.existingSecret`) at it and roll the operator pods.
 `Database.MigrateAsync()` runs on startup and is a no-op if the restored
 database is already at the latest migration; if the dump predates a schema
 change, the operator applies the missing migrations automatically on boot.

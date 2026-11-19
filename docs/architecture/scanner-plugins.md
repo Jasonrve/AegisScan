@@ -1,14 +1,9 @@
 # Scanner plugins
 
-Plugins implement the small `app.ScannerPlugin` boundary and consume an
-`app.Workspace`. Repository acquisition remains in the shared Git cache.
+Scanners are containers. AegisScan runs each one as a Kubernetes Job with the repository already checked out from the [shared Git cache](/architecture/git-cache), then interprets what the container prints to stdout.
 
-TruffleHog parses newline-delimited JSON, removes raw secret material, records
-only a stable fingerprint plus safe path/detector/verification metadata, and
-supports full and checkpoint-based incremental command arguments. A successful
-full scan reconciles findings that were not observed into the resolved state.
+- To add a scanner (no code for SARIF or Aegis JSON output), see [Adding a scanner container](/guide/adding-a-scanner).
+- Output contract and ready-made definitions: [Custom scanners](/operations/custom-scanners).
+- Built-in scanners (TruffleHog, Renovate, SBOM) and Job security: [Scanner catalog](/operations/scanners).
 
-Renovate runs through the prepared workspace and returns sanitized structured
-log summaries. Its production process image and platform credentials are
-deployment concerns; the adapter does not persist credentials or implement
-dependency-update logic itself.
+A scanner with a bespoke output format needs a parser in `src/AegisScan.Operator/Scanning/` (see `TruffleHogResultParser.cs`). Parsers must never persist raw secret material; they record a stable fingerprint plus safe path, detector and verification metadata only.
