@@ -4,14 +4,14 @@ import { loginAs } from './login'
 test('repository creation and live dashboard counts work', async ({ page }) => {
   await loginAs(page, 'admin')
   const repositoryName = `team/edge-service-${Date.now()}`
-  await page.getByRole('button', { name: 'Repositories' }).click()
+  await page.locator('.side-nav').getByRole('button', { name: 'Repositories', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Managed repositories' })).toBeVisible()
   await page.getByRole('button', { name: /Add repository/ }).click()
   await page.getByLabel('Repository name').fill(repositoryName)
   await page.getByLabel('Clone URL').fill(`https://github.com/${repositoryName}.git`)
   await page.getByRole('button', { name: /Add repository/ }).last().click()
   await expect(page.getByRole('status')).toContainText('Repository added')
-  await page.getByRole('button', { name: 'Repositories' }).click()
+  await page.locator('.side-nav').getByRole('button', { name: 'Repositories', exact: true }).click()
   // The list is paged and sorted, so find the new repository the way a user would: by filtering.
   await page.getByLabel('Filter repositories').fill(repositoryName)
   await expect(page.getByText(repositoryName)).toBeVisible()
