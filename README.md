@@ -5,8 +5,8 @@
 <h1 align="center">AegisScan</h1>
 
 <p align="center">
-  Kubernetes-native security automation: discover repositories, run any scanner as a container,<br>
-  and triage findings in one console.
+  <b>A harness for security scanners.</b> Plug in any scanner as a container, point it at your repos,<br>
+  and get one consolidated view of the findings. No per-repo pipelines.
 </p>
 
 <p align="center">
@@ -27,11 +27,48 @@
   <a href="https://jasonrve.github.io/AegisScan/roadmap">Roadmap</a>
 </p>
 
+> **Status: MVP.** It runs end to end, but it is early software. Read [what is missing](#whats-missing) before adopting it.
+
+## What is AegisScan?
+
+AegisScan **runs other people's scanners for you** (Gitleaks, Trivy, Semgrep, TruffleHog, or your own) across all your repositories, and **puts every result in one place**.
+
+Today, scanning N repos with M tools means N × M pipelines to write, secure and maintain, plus M different report formats. With AegisScan you do it once:
+
+```mermaid
+flowchart LR
+    subgraph before [Without AegisScan]
+      direction LR
+      R1[repo A] --- P1[pipeline + tool 1, 2, 3]
+      R2[repo B] --- P2[pipeline + tool 1, 2, 3]
+      R3[repo C] --- P3[pipeline + tool 1, 2, 3]
+    end
+    subgraph after [With AegisScan]
+      direction LR
+      RA[repo A, B, C] --> H((AegisScan))
+      S1[Gitleaks] --> H
+      S2[Trivy] --> H
+      S3[Semgrep] --> H
+      S4[your scanner] --> H
+      H --> F[one findings view,<br/>alerts, reports]
+    end
+```
+
+1. **Add repositories** (one by one, or let discovery find them).
+2. **Plug in scanners.** A scanner is just a container image that prints SARIF or simple JSON. AegisScan clones each repo once, runs every scanner against it in Kubernetes, and cleans up.
+3. **Read one report.** Findings from all tools are normalised (severity, file, line), deduplicated across rescans, triaged in one place, and sent out as alerts or webhooks.
+
+You never write a pipeline per repo, and adding a new scanner means adding one container, not touching any repository.
+
 <p align="center">
-  <img src="docs/public/preview.png" alt="AegisScan dashboard" width="900">
+  <img src="docs/public/repositories.png" alt="Repositories view: every repo with its open findings by severity, last scan and health, with Gitleaks, Semgrep, Trivy and other scanners plugged in on the left" width="900"><br>
+  <sub>Repositories: every repo, ranked by risk, with findings from all plugged-in scanners (listed in the sidebar).</sub>
 </p>
 
-> **Status: MVP.** It runs end to end, but it is early software. Read [what is missing](#whats-missing) before adopting it.
+<p align="center">
+  <img src="docs/public/preview.png" alt="AegisScan dashboard" width="900"><br>
+  <sub>Dashboard: runs, findings by severity and activity across all repositories.</sub>
+</p>
 
 ## Features
 
