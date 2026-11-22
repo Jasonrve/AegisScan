@@ -247,6 +247,8 @@ public sealed class ScanExecutionWorker(
                 ScanMetrics.JobDurationSeconds.Observe((completed - startedForMetrics).TotalSeconds);
 
             if (execution.Status is "succeeded" or "failed") await NotifyWebhookAsync(db, execution, ct);
+            if (execution.Status == "succeeded" && execution.OutputInterpreted && execution.Scanner != SbomScan.ScannerId)
+                await WebhookNotifier.SendSarifAsync(db, httpClientFactory, logger, execution, ct);
         }
 
         var queuedCount = await db.Executions.CountAsync(e => e.Status == "queued", ct);

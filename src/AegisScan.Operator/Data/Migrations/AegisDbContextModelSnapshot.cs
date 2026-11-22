@@ -483,6 +483,39 @@ namespace AegisScan.KubeOps.Data.Migrations
                             Value = "90"
                         });
                 });
+
+            modelBuilder.Entity("AegisScan.KubeOps.Data.WebhookEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RepositoryId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Scanner")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Secret")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Webhooks");
+                });
 #pragma warning restore 612, 618
         }
     }

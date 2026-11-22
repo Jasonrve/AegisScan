@@ -508,6 +508,8 @@ public static class ApiEndpoints
         }).RequireAuthorization(AegisRoles.Admin);
 
         api.MapSbomApi();
+        api.MapSarifApi();
+        api.MapCveApi();
         api.MapActivityApi();
         api.MapDashboardApi();
         api.MapFixesApi();

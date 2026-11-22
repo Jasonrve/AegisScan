@@ -19,7 +19,7 @@ public static class DashboardEndpoints
     private static int Rank(string severity) => Array.IndexOf(Severities, severity) is var i and >= 0 ? Severities.Length - i : 0;
 
     public sealed record CveRow(string Id, string Severity, int Repos, int Occurrences, string Package, bool FixAvailable, string[] RepoIds, DateTimeOffset FirstSeen);
-    private sealed record CveItem(string Detector, string RepositoryId, string Scanner, string Severity, string Detail, DateTimeOffset FirstSeenAt);
+    internal sealed record CveItem(string Detector, string RepositoryId, string Scanner, string Severity, string Detail, DateTimeOffset FirstSeenAt);
 
     private static CveRow ToRow(IGrouping<string, CveItem> g)
     {
@@ -27,6 +27,16 @@ public static class DashboardEndpoints
         var cut = first.IndexOf(" — ", StringComparison.Ordinal); // SBOM detail: "package version — Upgrade package to version X"
         var repoIds = g.Select(f => f.RepositoryId).Distinct().ToArray();
         return new CveRow(g.Key, g.Select(f => f.Severity).OrderByDescending(Rank).First(), repoIds.Length, g.Count(), cut >= 0 ? first[..cut] : first, g.Any(f => f.Detail.Contains(" — Upgrade", StringComparison.Ordinal)), repoIds.Take(8).ToArray(), g.Min(f => f.FirstSeenAt));
+    }
+
+    /// <summary>Open vulnerability findings carry the advisory id as their detector and "package version" as their detail. Fresh = first seen after the repository+scanner's baseline scan, within <paramref name="since"/>.</summary>
+    internal static async Task<(List<CveItem> Open, List<CveItem> Fresh)> LoadCvesAsync(AegisDbContext db, HashSet<string> managed, DateTimeOffset since)
+    {
+        var open = (await db.Findings.AsNoTracking().Where(f => f.State == "open" && (f.Detector.StartsWith("CVE-") || f.Detector.StartsWith("GHSA-")))
+            .Select(f => new CveItem(f.Detector, f.RepositoryId, f.Scanner, f.Severity, f.Detail, f.FirstSeenAt)).Take(100000).ToListAsync()).Where(f => managed.Contains(f.RepositoryId)).ToList();
+        var baseline = (await db.Findings.AsNoTracking().GroupBy(f => new { f.RepositoryId, f.Scanner }).Select(g => new { g.Key.RepositoryId, g.Key.Scanner, First = g.Min(f => f.FirstSeenAt) }).ToListAsync())
+            .ToDictionary(b => (b.RepositoryId, b.Scanner), b => b.First);
+        return (open, open.Where(f => f.FirstSeenAt >= since && f.FirstSeenAt > baseline[(f.RepositoryId, f.Scanner)] + BaselineMargin).ToList());
     }
 
     public static async Task<object> BuildAsync(AegisDbContext db, int days, IReadOnlyCollection<string>? scope = null)
@@ -54,12 +64,8 @@ public static class DashboardEndpoints
           .OrderByDescending(r => r.blocked || r.verified > 0).ThenByDescending(r => r.critical).ThenByDescending(r => r.high).ThenByDescending(r => r.medium).ThenBy(r => r.name, StringComparer.Ordinal)
           .Take(10).ToList();
 
-        // CVEs: open vulnerability findings carry the advisory id as their detector and "package version" as their detail.
-        var cveRows = (await db.Findings.AsNoTracking().Where(f => f.State == "open" && (f.Detector.StartsWith("CVE-") || f.Detector.StartsWith("GHSA-")))
-            .Select(f => new CveItem(f.Detector, f.RepositoryId, f.Scanner, f.Severity, f.Detail, f.FirstSeenAt)).Take(100000).ToListAsync()).Where(f => managed.Contains(f.RepositoryId)).ToList();
-        var baseline = (await db.Findings.AsNoTracking().GroupBy(f => new { f.RepositoryId, f.Scanner }).Select(g => new { g.Key.RepositoryId, g.Key.Scanner, First = g.Min(f => f.FirstSeenAt) }).ToListAsync())
-            .ToDictionary(b => (b.RepositoryId, b.Scanner), b => b.First);
-        var fresh = cveRows.Where(f => f.FirstSeenAt >= since && f.FirstSeenAt > baseline[(f.RepositoryId, f.Scanner)] + BaselineMargin).GroupBy(f => f.Detector).ToList();
+        var (cveRows, freshRows) = await LoadCvesAsync(db, managed, since);
+        var fresh = freshRows.GroupBy(f => f.Detector).ToList();
         var newCves = fresh.Select(ToRow)
             .OrderByDescending(c => Rank(c.Severity)).ThenByDescending(c => c.Repos).ThenBy(c => c.Id, StringComparer.Ordinal).Take(10).ToList();
         var widespread = cveRows.Where(f => f.Severity is "critical" or "high").GroupBy(f => f.Detector)

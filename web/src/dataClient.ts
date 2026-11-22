@@ -179,6 +179,33 @@ export async function downloadSbom(id: string, sbom: Pick<SbomSummary, 'id' | 'r
   link.click(); URL.revokeObjectURL(url)
 }
 
+/** Saves the repository's findings as a SARIF 2.1.0 file, optionally for one scanner. */
+export async function downloadSarif(id: string, token: string, scanner = '', fetcher: Fetcher = fetch as unknown as Fetcher) {
+  const response = await fetcher(`${baseUrl()}/api/v1/repositories/${repoId(id)}/sarif${scanner ? `?scanner=${encodeURIComponent(scanner)}` : ''}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+  if (!response.ok) throw new Error(`SARIF export failed: ${response.status}`)
+  const url = URL.createObjectURL(await response.blob())
+  const link = Object.assign(document.createElement('a'), { href: url, download: `${id.replace(/[^A-Za-z0-9._-]/g, '_')}${scanner ? `-${scanner}` : ''}.sarif` })
+  link.click(); URL.revokeObjectURL(url)
+}
+
+export type Webhook = { id: string; name: string; url: string; repositoryId: string; scanner: string; enabled: boolean; hasSecret: boolean }
+export async function loadWebhooks(token: string, fetcher: Fetcher = fetch as unknown as Fetcher): Promise<Webhook[]> { return items<Webhook>(await request('/api/v1/webhooks', { token }, fetcher)) }
+export async function saveWebhook(hook: Partial<Webhook> & { id: string; secret?: string }, token: string, fetcher: Fetcher = fetch as unknown as Fetcher) { return request(`/api/v1/webhooks/${encodeURIComponent(hook.id)}`, { method: 'PUT', token, body: JSON.stringify(hook) }, fetcher) }
+export async function deleteWebhook(id: string, token: string, fetcher: Fetcher = fetch as unknown as Fetcher) { return request(`/api/v1/webhooks/${encodeURIComponent(id)}`, { method: 'DELETE', token }, fetcher) }
+
+export type CveRow = { id: string; severity: string; score: number | null; vector: string; summary: string; repos: number; occurrences: number; packages: string[]; packageCount: number; fixAvailable: boolean; firstSeen: string; isNew: boolean }
+export type CveList = { days: number; total: number; newCount: number; items: CveRow[] }
+export type CveDetail = {
+  id: string; severity: string; score: number | null; method: string; vector: string; description: string; published: string; updated: string; cwes: number[]; references: string[]
+  ratings: { source: string; score: number | null; severity: string; method: string; vector: string }[]; advisoryUrl: string; isNew: boolean; firstSeen: string | null; fixAvailable: boolean; occurrences: number
+  repos: { id: string; name: string; provider: string; status: string; findings: { fingerprint: string; package: string; version: string; fix: string; path: string; scanner: string; assignee: string; firstSeen: string; commit: string }[] }[]
+}
+export async function loadCves(token: string, params: { days: number; severity?: string; search?: string; newOnly?: boolean }, fetcher: Fetcher = fetch as unknown as Fetcher): Promise<CveList> {
+  const q = new URLSearchParams({ days: String(params.days), ...(params.severity ? { severity: params.severity } : {}), ...(params.search ? { search: params.search } : {}), ...(params.newOnly ? { newOnly: 'true' } : {}) })
+  return request(`/api/v1/cves?${q}`, { token }, fetcher)
+}
+export async function loadCve(id: string, token: string, days = 7, fetcher: Fetcher = fetch as unknown as Fetcher): Promise<CveDetail> { return request(`/api/v1/cves/${encodeURIComponent(id)}?days=${days}`, { token }, fetcher) }
+
 export type ActivityRun = { id: string; repositoryId: string; scanner: string; mode: string; status: string; attempt: number; createdAt: string; startedAt?: string; finishedAt?: string; notBefore?: string; findingCount: number; outputInterpreted: boolean; jobName?: string; commitSHA: string }
 export type Activity = { scanners: { id: string; name: string; category: string }[]; latest: ActivityRun[]; active: ActivityRun[]; open: { repositoryId: string; scanner: string; count: number }[]; /** Open findings by severity; only filled when a single repository was requested. */ severities?: { scanner: string; severity: string; count: number }[]; generatedAt: string }
 /** Latest run per repository and scanner, open finding counts and runs in flight; pass a repository id to narrow it to one repository. */

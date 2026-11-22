@@ -14,6 +14,7 @@ public sealed class AegisDbContext(DbContextOptions<AegisDbContext> options) : D
     public DbSet<AlertAckEntity> AlertAcks => Set<AlertAckEntity>();
     public DbSet<SbomEntity> Sboms => Set<SbomEntity>();
     public DbSet<RepositoryImageEntity> RepositoryImages => Set<RepositoryImageEntity>();
+    public DbSet<WebhookEntity> Webhooks => Set<WebhookEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +26,7 @@ public sealed class AegisDbContext(DbContextOptions<AegisDbContext> options) : D
         modelBuilder.Entity<SbomEntity>().HasKey(s => s.Id);
         modelBuilder.Entity<SbomEntity>().HasIndex(s => s.RepositoryId);
         modelBuilder.Entity<RepositoryImageEntity>().HasKey(i => new { i.RepositoryId, i.Ref });
+        modelBuilder.Entity<WebhookEntity>().HasKey(w => w.Id);
 
         modelBuilder.Entity<SettingEntity>().HasData(
             new SettingEntity { Key = "retentionDays", Value = "90" });
@@ -144,6 +146,19 @@ public sealed class FindingEntity
     public string Category { get; set; } = "";
     /// <summary>Documentation link for the rule (SARIF helpUri); http(s) only.</summary>
     public string HelpUrl { get; set; } = "";
+}
+
+/// <summary>Receives a "sarif.updated" POST (the SARIF of the repository's findings for the scanner that just ran) after each successful scan. Empty RepositoryId / Scanner = all.</summary>
+public sealed class WebhookEntity
+{
+    public string Id { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Url { get; set; } = "";
+    /// <summary>HMAC-SHA256 signing key (X-Aegis-Signature); write-only in the API.</summary>
+    public string Secret { get; set; } = "";
+    public string RepositoryId { get; set; } = "";
+    public string Scanner { get; set; } = "";
+    public bool Enabled { get; set; } = true;
 }
 
 /// <summary>A container image linked to a repository by hand; images detected in the repository's files are found by each SBOM scan and not stored here.</summary>

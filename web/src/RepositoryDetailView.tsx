@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
-import { loadRepositoryLanguages, type Repository, type Execution, type Finding } from './dataClient'
+import { loadRepositoryLanguages, downloadSarif, type Repository, type Execution, type Finding } from './dataClient'
 import SbomPanel from './SbomPanel'
+import ScanTimelinePanel from './ScanTimelinePanel'
 import ScanFlowPanel from './ScanFlowPanel'
 import FixList, { useFixes } from './FixList'
 import { StarButton } from './scope'
@@ -98,7 +99,7 @@ export default function RepositoryDetailView({ repo, runs, findings, token, canR
           <div><small>Open findings</small>{openTotal === null ? <span>…</span> : openTotal ? <button className="text-button" onClick={() => openFindings({ repositoryId: repo.id })}>{openTotal.toLocaleString()} →</button> : <span>0</span>}</div>
         </div>
         {repo.status === 'Blocked' && <div className="blocked-note" role="note"><span>Blocked by policy <b>Block verified findings</b>: a verified secret was found ({card.verified} live). Scheduled scans are paused until an admin unblocks the repository.</span>{canUnblock && onUnblock && <button className="secondary" onClick={() => onUnblock(repo)}>Unblock repository</button>}</div>}
-        {canRun && <button className="primary" onClick={() => onRun(repo.id)}>Run scan</button>}
+        <div className="repo-actions">{canRun && <button className="primary" onClick={() => onRun(repo.id)}>Run scan</button>} <button className="secondary" onClick={() => downloadSarif(repo.id, token || '').catch(() => window.alert('SARIF export failed.'))}>Export SARIF</button></div>
       </div>
       <div className="panel repo-scorecard-panel">
         <div className="panel-head"><h2>Security scorecard</h2></div>
@@ -113,6 +114,7 @@ export default function RepositoryDetailView({ repo, runs, findings, token, canR
         </div>
       </div>
     </section>
+    <ScanTimelinePanel runs={repoRuns} onLogs={onLogs} relativeTime={relativeTime} pretty={pretty}/>
     <ScanFlowPanel repo={repo} token={token} runs={repoRuns} onLogs={onLogs} relativeTime={relativeTime}/>
     <SbomPanel repositoryId={repo.id} token={token} canRun={canRun} relativeTime={relativeTime}/>
     <div className="panel repo-languages-panel">
